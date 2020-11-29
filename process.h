@@ -1,5 +1,5 @@
-#ifndef ASSIGNMENT4_PROCESS_H
-#define ASSIGNMENT4_PROCESS_H
+#ifndef PAGE_REPLACEMENT_SIMULATOR_PAGE_PROCESS_H
+#define PAGE_REPLACEMENT_SIMULATOR_PAGE_PROCESS_H
 
 #include "tsearch.h"
 #include "input_parser.h"

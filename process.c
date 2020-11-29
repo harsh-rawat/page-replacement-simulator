@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include "process.h"
 
-process* create_process(int pid, int index);
-int compare_memory_trace_process(const void *a, const void *b);
-
 void* ParseTraceFile(char* filepath){
     FILE* file = fopen(filepath, "r");
     int lineIndex = 0;

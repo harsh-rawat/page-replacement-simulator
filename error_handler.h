@@ -1,5 +1,5 @@
-#ifndef ASSIGNMENT4_ERROR_HANDLER_H
-#define ASSIGNMENT4_ERROR_HANDLER_H
+#ifndef PAGE_REPLACEMENT_SIMULATOR_PAGE_ERROR_HANDLER_H
+#define PAGE_REPLACEMENT_SIMULATOR_PAGE_ERROR_HANDLER_H
 
 void BufferOverflowError(int index, char *line);
 void NullByteInLineError(int index, char *line);

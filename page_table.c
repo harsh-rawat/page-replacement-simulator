@@ -1,6 +1,3 @@
-//
-// Created by Sidharth Gurbani on 11/28/20.
-//
 #include <stdlib.h>
 #include <stdio.h>
 #include "page_table.h"
@@ -18,11 +15,12 @@ void* ParseTraceFile2(char* filepath){
 
         process* reference_process = create_process(mem_reference->pid, lineIndex);
         process *existing_process = Get(&root, reference_process, &compare_memory_trace_process);//Get the process from hashtable
-        if(existing_process == NULL)
+        if(existing_process == NULL) {
+            free(reference_process);
             // Throw error as you expect the process to be present
-            exit(EXIT_FAILURE);
+            InvalidInputError(lineIndex);
+        }
 
-        free(reference_process);
         page_table_entry* reference_page_table_entry = create_page_table_entry(mem_reference->vpn);
         page_table_entry* existing_page_table_entry = Get(&existing_process->PT, reference_page_table_entry,
                                                           compare_memory_trace_page_table_entry);
