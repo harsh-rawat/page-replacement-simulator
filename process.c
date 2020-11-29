@@ -33,6 +33,7 @@ process* create_process(int pid, int index){
     new_process->pid = pid;
     new_process->start = index;
     new_process->end = index;
+    new_process->PT = NULL;
 }
 
 // Returns -1 if a <  b
