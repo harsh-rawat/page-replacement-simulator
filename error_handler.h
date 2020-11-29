@@ -5,5 +5,6 @@ void BufferOverflowError(int index, char *line);
 void NullByteInLineError(int index, char *line);
 void ValidateMemoryAllocationError(void *arg);
 void InvalidInputError(int index);
+void TSearchError();
 
 #endif

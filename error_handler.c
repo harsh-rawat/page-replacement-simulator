@@ -18,3 +18,8 @@ void InvalidInputError(int index){
     printf("Invalid\n");
     exit(EXIT_FAILURE);
 }
+
+void TSearchError(){
+    printf("Insufficient memory\n");
+    exit(EXIT_FAILURE);
+}
