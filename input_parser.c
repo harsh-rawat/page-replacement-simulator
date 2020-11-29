@@ -5,14 +5,16 @@
 #include "input_parser.h"
 
 char *extractLineFromFile(FILE *file, int index);
+
 char *reallocateString(char *buffer, int len);
+
 memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex);
 
-memory_reference* ReadLine(FILE *file, int index) {
+memory_reference *ReadLine(FILE *file, int index) {
     //Extract the line from the file
     char *line = extractLineFromFile(file, index);
     //Extract memory reference from the line
-    memory_reference * reference = split(line, 0, strlen(line), index);
+    memory_reference *reference = split(line, 0, strlen(line), index);
     return reference;
 }
 
@@ -62,20 +64,20 @@ char *reallocateString(char *buffer, int len) {
  * This method is used to split the line on whitespaces for getting (pid,vpn)
  * */
 memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) {
-    memory_reference* ref = malloc(sizeof(memory_reference));
+    memory_reference *ref = malloc(sizeof(memory_reference));
     int index;
     int num_count = 0;
-    char* curr = malloc(sizeof(char)*MAX_BUFFER_SIZE);
+    char *curr = malloc(sizeof(char) * MAX_BUFFER_SIZE);
     int curr_index = 0;
 
-    for(index = initialIndex; index <= maxLen; index++){
-        if(index == maxLen || str[index] == ' ' || str[index] == '\t' || str[index] == '\r') {
+    for (index = initialIndex; index <= maxLen; index++) {
+        if (index == maxLen || str[index] == ' ' || str[index] == '\t' || str[index] == '\r') {
             //Record this num
-            if(curr_index > 0){
+            if (curr_index > 0) {
                 curr[curr_index] = '\0';
-                if(num_count == 0)
+                if (num_count == 0)
                     ref->pid = atoi(curr);
-                else if(num_count == 1)
+                else if (num_count == 1)
                     ref->vpn = atoi(curr);
                 else
                     InvalidInputError(lineIndex);
@@ -86,7 +88,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) 
             curr_index = 0;
             continue;
         }
-        if(!isdigit(str[index - initialIndex]))
+        if (!isdigit(str[index - initialIndex]))
             InvalidInputError(lineIndex);
         curr[curr_index++] = str[index - initialIndex];
     }

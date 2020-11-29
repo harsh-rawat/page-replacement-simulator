@@ -5,11 +5,12 @@
 
 #define MAX_BUFFER_SIZE 4096
 
-struct memory_reference{
+struct memory_reference {
     int pid;
     int vpn;
 };
 typedef struct memory_reference memory_reference;
 
-memory_reference* ReadLine(FILE *file, int index);
+memory_reference *ReadLine(FILE *file, int index);
+
 #endif
