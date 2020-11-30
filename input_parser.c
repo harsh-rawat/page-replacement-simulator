@@ -18,6 +18,14 @@ memory_reference *ReadLine(FILE *file, int index) {
     return reference;
 }
 
+memory_reference *CreateMemoryReference(int pid, int vpn, int lineIndex) {
+    memory_reference *mem_ref = malloc(sizeof(memory_reference));
+    mem_ref->lineIndex = lineIndex;
+    mem_ref->pid = pid;
+    mem_ref->vpn = vpn;
+    return mem_ref;
+}
+
 /**
  * This method is used to extract a line from a file. We perform buffer overflow and null byte check as we extract the line.
  * This method has been reused from our last assignment.
@@ -64,7 +72,7 @@ char *reallocateString(char *buffer, int len) {
  * This method is used to split the line on whitespaces for getting (pid,vpn)
  * */
 memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) {
-    memory_reference *ref = malloc(sizeof(memory_reference));
+    memory_reference *ref = CreateMemoryReference(0, 0, lineIndex);
     int index;
     int num_count = 0;
     char *curr = malloc(sizeof(char) * MAX_BUFFER_SIZE);

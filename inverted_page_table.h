@@ -8,4 +8,8 @@ typedef struct page_frame {
     page_table_entry *page_table_entry;
 } page_frame;
 
+void Unlink_pf_pte(void *ipt_root, int pf_id);
+
+void Link_pf_pte(void *ipt_root, int pf_id, page_table_entry *pte)
+
 #endif

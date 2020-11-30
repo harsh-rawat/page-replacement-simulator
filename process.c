@@ -26,12 +26,23 @@ void *ParseTraceFile(char *filepath) {
     return root;
 }
 
+active_process *CreateActiveProcess(int pid) {
+    active_process *new_process = malloc(sizeof(active_process));
+    new_process->pid = pid;
+    new_process->unblock_time = 0;
+    new_process->unblock_page_frame = -1;
+    new_process->unblock_page_table_entry = NULL;
+    new_process->next = CreateLinkedList();
+    AddNode(new_process->next, pid);
+    return new_process;
+}
+
 process *create_process(int pid, int index) {
     process *new_process = malloc(sizeof(process));
     new_process->pid = pid;
-    new_process->start = index;
     new_process->end = index;
     new_process->page_table = NULL;
+    new_process->current_process = CreateActiveProcess(pid);
 }
 
 // Returns -1 if a <  b
