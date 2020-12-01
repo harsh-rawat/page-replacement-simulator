@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "page_table.h"
+#include "queue.h"
+#include "heap.h"
 
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes, void *blocked_processes,
                            int clock_time);
