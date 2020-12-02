@@ -45,6 +45,11 @@ void RemoveFromQueue(Queue* q) {
     free(node);
 }
 
+void* GetFromQueue(Queue* q) {
+    if(q->front == NULL) return NULL;
+    else return q->front->data;
+}
+
 bool IsEmptyQueue(Queue* q) {
     if (q->front==NULL)
         return true;

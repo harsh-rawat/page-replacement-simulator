@@ -32,4 +32,4 @@ int compare_memory_trace_process(const void *a, const void *b);
 
 active_process *CreateActiveProcess(int pid);
 
-#endif
+#endif //PAGE_REPLACEMENT_SIMULATOR_PAGE_PROCESS_H

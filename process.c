@@ -43,6 +43,7 @@ process *create_process(int pid, int index) {
     new_process->end = index;
     new_process->page_table = NULL;
     new_process->current_process = CreateActiveProcess(pid);
+    return new_process;
 }
 
 // Returns -1 if a <  b

@@ -5,13 +5,16 @@
 
 #include "tsearch.h"
 #include "input_parser.h"
-#include "inverted_page_table.h"
 #include "error_handler.h"
-#include "process.h"
+#include "inverted_page_table.h"
+#include "tables.h"
 
+/*
 typedef struct page_table_entry {
     int vpn;
     page_frame *page_frame;
-} page_table_entry;
+}page_table_entry;
+ */
 
+void RunSimulation(char *filepath, void *process_root, void *ipt_root);
 #endif
