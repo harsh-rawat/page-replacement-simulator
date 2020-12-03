@@ -17,7 +17,7 @@ typedef struct active_process {
 
 struct process {
     int pid;
-    int end;
+    long end;
     void *page_table;
     active_process *current_process;
 };
@@ -26,7 +26,7 @@ typedef struct process process;
 
 void *ParseTraceFile(char *filepath);
 
-process *create_process(int pid, int index);
+process *create_process(int pid, long file_ptr);
 
 int compare_memory_trace_process(const void *a, const void *b);
 

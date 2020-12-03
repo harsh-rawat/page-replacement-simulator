@@ -11,7 +11,7 @@ void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_pro
 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
-void handle_page_fault(Queue* disk_queue, int clock, void **blocked_processes, process *existing_process, int lineIndex,
+void handle_page_fault(Queue* disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked);
 
 page_table_entry *create_page_table_entry(int vpn);
@@ -34,7 +34,8 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
     Queue *disk_queue = CreateQueue();
 
     FILE *file = fopen(filepath, "r");
-    int lineIndex = 0;
+    long curr_file_pointer = ftell(file);
+//    int lineIndex = 0;
 
     while (!IsEmptyQueue(disk_queue) || feof(file) == 0) {
         //Perform some bookkeeping tasks along with disk_queue update
@@ -45,12 +46,13 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
 
         if (!IsEmptyHeap(runnable_processes)) {
             current_process = ExtractMin(runnable_processes);
-            int next_line_number = (int) GetNext(current_process->next);
-            mem_reference = ReadLineAtIndex(file, next_line_number);
-            DeleteNode(current_process->next, next_line_number);
+            int next_file_ptr = (int) GetNext(current_process->next);
+            mem_reference = ReadLineAtIndex(file, next_file_ptr);
+//            DeleteNode(current_process->next, next_file_ptr);
+            fseek(file, curr_file_pointer, SEEK_SET);
         } else if (feof(file) == 0) {
-            mem_reference = ReadLine(file, lineIndex);
-            lineIndex++;
+            mem_reference = ReadLine(file, curr_file_pointer);
+            curr_file_pointer = ftell(file);
         } else if (IsEmptyQueue(disk_queue)) {
             //If blocked queue is empty as well then it means the simulation has ended
             break;
@@ -66,7 +68,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
         //Is the current memory reference process blocked
         if (Get(&blocked_processes, existing_process->current_process, &compare_memory_trace_active_process) != NULL) {
             //Handle page fault but only add current reference to the end of next list
-            handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->lineIndex, NULL, 1);
+            handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr, NULL, 1);
         } else {
 
             page_table_entry *reference_page_table_entry = create_page_table_entry(mem_reference->vpn);
@@ -76,20 +78,23 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
                 // Put the value in the page table
                 Put(&existing_process->page_table, reference_page_table_entry, &compare_memory_trace_page_table_entry);
                 // handle page fault
-                handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->lineIndex,
+                handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
                                   reference_page_table_entry, 0);
             } else {
                 if (existing_page_table_entry->page_frame == NULL) { //Again this means page fault
-                    handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->lineIndex,
+                    handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
                                       existing_page_table_entry, 0);
                 } else { // This means page hit
+                    void* next_ptr = GetNext(existing_process->current_process->next);
+                    if(next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr)
+                        DeleteNode(existing_process->current_process->next, mem_reference->file_ptr);
                     //Add the next readable line for the existing process (In case it was previously blocked)
                     if (GetNext(existing_process->current_process->next) != NULL) {
                         //There is a line which needs to be read before moving to current line
                         AddToHeap(runnable_processes, (int) GetNext(existing_process->current_process->next),
                                   existing_process->current_process);
                     }
-                    if (lineIndex == existing_process->end) {
+                    if (curr_file_pointer == existing_process->end) {
                         //To-do: Clean up all the page frames of the existing process
                     }
                 }
@@ -106,10 +111,13 @@ void free_process_page_frames() {
 //Use that to go over all the page_table_entries and free the page frames
 }
 
-void handle_page_fault(Queue* disk_queue, int clock, void **blocked_processes, process *existing_process, int lineIndex,
+void handle_page_fault(Queue* disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked) {
     active_process *current_process = existing_process->current_process;
-    AddNode(current_process->next, lineIndex);
+    void* next_ptr = GetNext(current_process->next);
+    if(next_ptr != NULL && (long) next_ptr != file_ptr)
+        AddNode(current_process->next, file_ptr);
+//    AddNode(current_process->next, file_ptr);
     if (!is_blocked) {
         //To-do: Call Page Replacement Algorithm to find the page which needs to be replaced
         int replace_page_frame = GetPageToReplace();

@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "process_options.h"
 #include "process.h"
 #include "page_table.h"
 #include "inverted_page_table.h"
+
 
 int main(int argc, char *argv[]) {
     //Parse the program arguments. If provided else consider the default ones
@@ -19,5 +21,6 @@ int main(int argc, char *argv[]) {
     void* ipt_root = CreateInvertedPageTable(max_pages);
 
     RunSimulation(filepath, process_root, ipt_root);
+
     return 0;
 }

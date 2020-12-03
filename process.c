@@ -4,13 +4,14 @@
 
 void *ParseTraceFile(char *filepath) {
     FILE *file = fopen(filepath, "r");
-    int lineIndex = 0;
+//    int lineIndex = 0;
     void *root = NULL;
+    long file_ptr = ftell(file);
 
     while (feof(file) == 0) {
-        memory_reference *mem_reference = ReadLine(file, lineIndex);
+        memory_reference *mem_reference = ReadLine(file, file_ptr);
         //Check if the process id exists in the hashtable
-        process *reference_process = create_process(mem_reference->pid, lineIndex);
+        process *reference_process = create_process(mem_reference->pid, file_ptr);
         process *existing_process = Get(&root, reference_process,
                                         &compare_memory_trace_process);//Get the process from hashtable
         if (existing_process == NULL) {//If process does not exist in hashtable
@@ -18,10 +19,10 @@ void *ParseTraceFile(char *filepath) {
             Put(&root, reference_process, &compare_memory_trace_process);
         } else {//Take the existing process object and update the last value
             free(reference_process);
-            existing_process->end = lineIndex;
+            existing_process->end = file_ptr;
         }
         free(mem_reference);
-        lineIndex++;
+        file_ptr = ftell(file);
     }
     return root;
 }
@@ -33,14 +34,14 @@ active_process *CreateActiveProcess(int pid) {
     new_process->unblock_page_frame = -1;
     new_process->unblock_page_table_entry = NULL;
     new_process->next = CreateLinkedList();
-    AddNode(new_process->next, pid);
+//    AddNode(new_process->next, pid);
     return new_process;
 }
 
-process *create_process(int pid, int index) {
+process *create_process(int pid, long file_ptr) {
     process *new_process = malloc(sizeof(process));
     new_process->pid = pid;
-    new_process->end = index;
+    new_process->end = file_ptr;
     new_process->page_table = NULL;
     new_process->current_process = CreateActiveProcess(pid);
     return new_process;
