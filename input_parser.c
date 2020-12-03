@@ -104,3 +104,32 @@ memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) 
     free(curr);
     return ref;
 }
+
+memory_reference* ReadLineAtIndex(FILE* fp, int lineIndex) {
+    if (!fp) {
+        // Call invalid file pointer error here.
+    }
+    int line_count = 0;
+    char* line_buffer = NULL;
+    size_t line_buff_size = 0;
+    ssize_t line_size;
+
+    line_size = getline(&line_buffer, &line_buff_size, fp);
+    if (line_count == lineIndex) {
+        memory_reference *reference = split(line_buffer, 0, strlen(line_buffer), lineIndex);
+        free(line_buffer);
+        line_buffer = NULL;
+        return reference;
+    }
+    while (line_size >= 0) {
+        line_count++;
+        if (line_count == lineIndex) {
+            break;
+        }
+        line_size = getline(&line_buffer, &line_buff_size, fp);
+    }
+    memory_reference *reference = split(line_buffer, 0, strlen(line_buffer), lineIndex);
+    free(line_buffer);
+    line_buffer = NULL;
+    return reference;
+}

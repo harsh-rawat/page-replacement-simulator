@@ -1,15 +1,18 @@
 #ifndef PAGE_REPLACEMENT_SIMULATOR_PAGE_INVERTED_PAGE_TABLE_H
 #define PAGE_REPLACEMENT_SIMULATOR_PAGE_INVERTED_PAGE_TABLE_H
 
-#include "page_table.h"
+//#include "page_table.h"
+#include "tables.h"
 
+/*
 typedef struct page_frame {
     int ppn_id;
     page_table_entry *page_table_entry;
-} page_frame;
+}page_frame;
+ */
 
 void Unlink_pf_pte(void *ipt_root, int pf_id);
-
-void Link_pf_pte(void *ipt_root, int pf_id, page_table_entry *pte)
+void Link_pf_pte(void *ipt_root, int pf_id, page_table_entry *pte);
+void *CreateInvertedPageTable(int max_pages);
 
 #endif

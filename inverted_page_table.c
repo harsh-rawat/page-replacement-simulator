@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "inverted_page_table.h"
-
+#include "tsearch.h"
 page_frame *get_page_frame(void *ipt_root, int pf_id);
 
 page_frame *create_page_frame(int id);
@@ -18,6 +18,9 @@ void *CreateInvertedPageTable(int max_pages) {
 
 void Unlink_pf_pte(void *ipt_root, int pf_id) {
     page_frame *existing = get_page_frame(ipt_root, pf_id);
+    // Handle unlink if page table entry does not exist
+    if (existing->page_table_entry == NULL)
+        return;
     existing->page_table_entry->page_frame = NULL;
     existing->page_table_entry = NULL;
 }
