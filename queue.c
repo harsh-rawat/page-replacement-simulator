@@ -4,24 +4,24 @@
 
 #include "queue.h"
 
-Node* CreateNode( void* data) {
-    Node* node = (Node*) malloc(sizeof(Node));
+Node *CreateNode(void *data) {
+    Node *node = (Node *) malloc(sizeof(Node));
     node->data = data;
     node->next = NULL;
 
     return node;
 }
 
-Queue* CreateQueue() {
-    Queue* q = (Queue*) malloc(sizeof(Queue));
+Queue *CreateQueue() {
+    Queue *q = (Queue *) malloc(sizeof(Queue));
     q->front = NULL;
     q->rear = NULL;
 
     return q;
 }
 
-void AddToQueue(Queue* q, void* data) {
-    Node* node = CreateNode(data);
+void AddToQueue(Queue *q, void *data) {
+    Node *node = CreateNode(data);
 
     if (q->rear == NULL) {
         q->front = q->rear = node;
@@ -32,11 +32,11 @@ void AddToQueue(Queue* q, void* data) {
     q->rear = node;
 }
 
-void RemoveFromQueue(Queue* q) {
+void RemoveFromQueue(Queue *q) {
     if (q->front == NULL)
         return;
 
-    Node* node = q->front;
+    Node *node = q->front;
     q->front = q->front->next;
 
     if (q->front == NULL)
@@ -45,13 +45,13 @@ void RemoveFromQueue(Queue* q) {
     free(node);
 }
 
-void* GetFromQueue(Queue* q) {
-    if(q->front == NULL) return NULL;
+void *GetFromQueue(Queue *q) {
+    if (q->front == NULL) return NULL;
     else return q->front->data;
 }
 
-bool IsEmptyQueue(Queue* q) {
-    if (q->front==NULL)
+bool IsEmptyQueue(Queue *q) {
+    if (q->front == NULL)
         return true;
 
     return false;

@@ -3,6 +3,7 @@
 //
 
 #include "page_replacement_algorithm.h"
+
 int GetPageToReplace() {
     return 1;
 }

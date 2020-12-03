@@ -1,17 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "page_table.h"
-#include "process.h"
-#include "page_replacement_algorithm.h"
-#include "queue.h"
-#include "heap.h"
+
 
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes, void **blocked_processes,
                            int clock_time);
 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
-void handle_page_fault(Queue* disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
+void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked);
 
 page_table_entry *create_page_table_entry(int vpn);
@@ -19,6 +16,8 @@ page_table_entry *create_page_table_entry(int vpn);
 int compare_memory_trace_page_table_entry(const void *a, const void *b);
 
 int compare_memory_trace_active_process(const void *a, const void *b);
+
+void free_process_page_frames(process *current_process);
 
 void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
     //A clock for this simulation
@@ -68,7 +67,8 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
         //Is the current memory reference process blocked
         if (Get(&blocked_processes, existing_process->current_process, &compare_memory_trace_active_process) != NULL) {
             //Handle page fault but only add current reference to the end of next list
-            handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr, NULL, 1);
+            handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr, NULL,
+                              1);
         } else {
 
             page_table_entry *reference_page_table_entry = create_page_table_entry(mem_reference->vpn);
@@ -85,8 +85,8 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
                     handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
                                       existing_page_table_entry, 0);
                 } else { // This means page hit
-                    void* next_ptr = GetNext(existing_process->current_process->next);
-                    if(next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr)
+                    void *next_ptr = GetNext(existing_process->current_process->next);
+                    if (next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr)
                         DeleteNode(existing_process->current_process->next, mem_reference->file_ptr);
                     //Add the next readable line for the existing process (In case it was previously blocked)
                     if (GetNext(existing_process->current_process->next) != NULL) {
@@ -95,7 +95,8 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
                                   existing_process->current_process);
                     }
                     if (curr_file_pointer == existing_process->end) {
-                        //To-do: Clean up all the page frames of the existing process
+                        //Clean up all the page frames of the existing process
+                        free_process_page_frames(existing_process);
                     }
                 }
                 free(reference_page_table_entry);
@@ -106,16 +107,15 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
     }
 }
 
-void free_process_page_frames() {
-//STep 1: Write twalk functionality in tsearch
-//Use that to go over all the page_table_entries and free the page frames
+void free_process_page_frames(process *current_process) {
+    TraverseTree(current_process->page_table, &Callback_free_page_frames);
 }
 
-void handle_page_fault(Queue* disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
+void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked) {
     active_process *current_process = existing_process->current_process;
-    void* next_ptr = GetNext(current_process->next);
-    if(next_ptr != NULL && (long) next_ptr != file_ptr)
+    void *next_ptr = GetNext(current_process->next);
+    if (next_ptr != NULL && (long) next_ptr != file_ptr)
         AddNode(current_process->next, file_ptr);
 //    AddNode(current_process->next, file_ptr);
     if (!is_blocked) {

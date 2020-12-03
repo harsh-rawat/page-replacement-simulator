@@ -105,7 +105,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr) 
     return ref;
 }
 
-memory_reference* ReadLineAtIndex(FILE* file, long file_ptr) {
+memory_reference *ReadLineAtIndex(FILE *file, long file_ptr) {
 
     fseek(file, file_ptr, SEEK_SET);
     char *line = extractLineFromFile(file, file_ptr);

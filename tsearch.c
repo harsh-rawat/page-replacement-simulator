@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <search.h>
 #include "tsearch.h"
 
 // Add the node to the binary tree
@@ -41,8 +40,11 @@ void Remove(void **root, void *data_node, tsearch_compare comparator) {
     free(data);
 }
 
+void TraverseTree(void *root, tsearch_walk callback) {
+    twalk(root, callback);
+}
+
 //Destroy the tree
 void Destroy(void **root, tsearch_free free_method) {
-    printf("Does nothing for now!\n");
 //    tdestroy(root, free_method);
 }

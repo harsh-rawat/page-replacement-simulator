@@ -14,7 +14,9 @@ struct memory_reference {
 typedef struct memory_reference memory_reference;
 
 memory_reference *ReadLine(FILE *file, long file_ptr);
-memory_reference* ReadLineAtIndex(FILE* fp, long file_ptr);
+
+memory_reference *ReadLineAtIndex(FILE *fp, long file_ptr);
+
 memory_reference *CreateMemoryReference(int pid, int vpn, long file_ptr);
 
 #endif

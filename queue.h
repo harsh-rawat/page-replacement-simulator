@@ -9,22 +9,26 @@
 #include <stdbool.h>
 
 struct Node {
-    void* data;
-    struct Node* next;
+    void *data;
+    struct Node *next;
 };
 
 struct Queue {
-    struct Node* front;
-    struct Node* rear;
+    struct Node *front;
+    struct Node *rear;
 };
 
 typedef struct Queue Queue;
 typedef struct Node Node;
 
-Queue* CreateQueue();
-void AddToQueue(Queue* q, void* data);
-void RemoveFromQueue(Queue* q);
-void* GetFromQueue(Queue* q);
-bool IsEmptyQueue(Queue* q);
+Queue *CreateQueue();
+
+void AddToQueue(Queue *q, void *data);
+
+void RemoveFromQueue(Queue *q);
+
+void *GetFromQueue(Queue *q);
+
+bool IsEmptyQueue(Queue *q);
 
 #endif //PAGE_REPLACEMENT_SIMULATOR_QUEUE_H

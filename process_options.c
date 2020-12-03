@@ -7,14 +7,14 @@
 #include <string.h>
 #include "process_options.h"
 
-options* process_options(int argc, char* argv[]) {
+options *process_options(int argc, char *argv[]) {
     if (argc == 1) {
         exit(EXIT_FAILURE);
     }
-    options* opt = malloc(sizeof(options));
-    opt->filepath = malloc(sizeof(char)*4096);
+    options *opt = malloc(sizeof(options));
+    opt->filepath = malloc(sizeof(char) * 4096);
     int c = 0;
-    while( (c = getopt(argc, argv, "p::m::")) != -1) {
+    while ((c = getopt(argc, argv, "p::m::")) != -1) {
         switch (c) {
             case 'p':
                 if (optarg == NULL)
@@ -24,9 +24,9 @@ options* process_options(int argc, char* argv[]) {
                 break;
             case 'm':
                 if (optarg == NULL)
-                    opt->m = 1*MEGA;
+                    opt->m = 1 * MEGA;
                 else
-                    opt->m = atoi(optarg)*MEGA;
+                    opt->m = atoi(optarg) * MEGA;
                 break;
             default:
                 printf("Nothing here!");

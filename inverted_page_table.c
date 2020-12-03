@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "inverted_page_table.h"
-#include "tsearch.h"
+
 page_frame *get_page_frame(void *ipt_root, int pf_id);
 
 page_frame *create_page_frame(int id);
@@ -29,6 +29,16 @@ void Link_pf_pte(void *ipt_root, int pf_id, page_table_entry *pte) {
     page_frame *existing = get_page_frame(ipt_root, pf_id);
     existing->page_table_entry = pte;
     pte->page_frame = existing;
+}
+
+void Callback_free_page_frames(const void *data, VISIT order, int depth) {
+    page_table_entry *entry = *(page_table_entry **) data;
+    if (entry->page_frame == NULL) return;
+
+    //Free the page frame
+    page_frame *page_frame = entry->page_frame;
+    page_frame->page_table_entry = NULL;
+    entry->page_frame = NULL;
 }
 
 page_frame *get_page_frame(void *ipt_root, int pf_id) {

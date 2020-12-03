@@ -10,9 +10,11 @@
 struct options {
     int p;
     int m;
-    char* filepath;
+    char *filepath;
 };
 
 typedef struct options options;
-options* process_options(int argc, char* argv[]);
+
+options *process_options(int argc, char *argv[]);
+
 #endif //PAGE_REPLACEMENT_SIMULATOR_PROCESS_OPTIONS_H

@@ -3,18 +3,18 @@
 //
 #include "heap.h"
 
-Heap* CreateHeap() {
-    Heap* h = (Heap*) malloc(sizeof(Heap));
+Heap *CreateHeap() {
+    Heap *h = (Heap *) malloc(sizeof(Heap));
 
-    if (h==NULL) {
+    if (h == NULL) {
         // Throw error as in error_handler.c
         exit(EXIT_FAILURE);
     }
     h->count = 0;
-    h->arr = (int* ) malloc(MAX_HEAP_CAPACITY*sizeof(int));
-    h->data = (void**) malloc(MAX_HEAP_CAPACITY*sizeof(void*));
+    h->arr = (int *) malloc(MAX_HEAP_CAPACITY * sizeof(int));
+    h->data = (void **) malloc(MAX_HEAP_CAPACITY * sizeof(void *));
 
-    if (h->arr==NULL || h->data==NULL) {
+    if (h->arr == NULL || h->data == NULL) {
         // Throw error as in error_handler.c
         exit(EXIT_FAILURE);
     }
@@ -22,10 +22,10 @@ Heap* CreateHeap() {
     return h;
 }
 
-void heapify_bottom_top(Heap* h, int index) {
+void heapify_bottom_top(Heap *h, int index) {
     int temp;
-    void* temp_data;
-    int parent_node = (index-1)/2;
+    void *temp_data;
+    int parent_node = (index - 1) / 2;
 
     if (h->arr[parent_node] > h->arr[index]) {
         temp = h->arr[parent_node];
@@ -41,12 +41,12 @@ void heapify_bottom_top(Heap* h, int index) {
     }
 }
 
-void heapify_top_bottom(Heap* h, int parent_node) {
-    int left = parent_node*2 + 1;
-    int right = parent_node*2 + 2;
+void heapify_top_bottom(Heap *h, int parent_node) {
+    int left = parent_node * 2 + 1;
+    int right = parent_node * 2 + 2;
     int min;
     int temp;
-    void* temp_data;
+    void *temp_data;
 
     if (left >= h->count || left < 0)
         left = -1;
@@ -76,16 +76,16 @@ void heapify_top_bottom(Heap* h, int parent_node) {
     }
 }
 
-void AddToHeap(Heap* h, int key, void* data) {
+void AddToHeap(Heap *h, int key, void *data) {
     h->arr[h->count] = key;
     h->data[h->count] = data;
     heapify_bottom_top(h, h->count);
     h->count++;
 }
 
-void* ExtractMin(Heap* h) {
-    void* pop;
-    if (h->count==0) {
+void *ExtractMin(Heap *h) {
+    void *pop;
+    if (h->count == 0) {
         return NULL;
     }
 
@@ -99,7 +99,7 @@ void* ExtractMin(Heap* h) {
     return pop;
 }
 
-bool IsEmptyHeap(Heap* h) {
+bool IsEmptyHeap(Heap *h) {
     if (h->count == 0)
         return true;
 
