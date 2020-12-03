@@ -1,6 +1,7 @@
 #ifndef PAGE_REPLACEMENT_SIMULATOR_PAGE_PROCESS_H
 #define PAGE_REPLACEMENT_SIMULATOR_PAGE_PROCESS_H
 
+#include "statistics.h"
 #include "linked_list.h"
 #include "tsearch.h"
 #include "input_parser.h"
@@ -24,7 +25,7 @@ struct process {
 
 typedef struct process process;
 
-void *ParseTraceFile(char *filepath);
+void *ParseTraceFile(char *filepath, statistics *stats);
 
 process *create_process(int pid, long file_ptr);
 

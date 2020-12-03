@@ -9,8 +9,9 @@
 #include "inverted_page_table.h"
 #include "tables.h"
 #include "process.h"
+#include "statistics.h"
 #include "page_replacement_algorithm.h"
 
-void RunSimulation(char *filepath, void *process_root, void *ipt_root);
+void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats);
 
 #endif

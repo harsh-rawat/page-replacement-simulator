@@ -1,7 +1,6 @@
 #ifndef PAGE_REPLACEMENT_SIMULATOR_PAGE_INVERTED_PAGE_TABLE_H
 #define PAGE_REPLACEMENT_SIMULATOR_PAGE_INVERTED_PAGE_TABLE_H
 
-//#include "page_table.h"
 #include "tables.h"
 #include "tsearch.h"
 

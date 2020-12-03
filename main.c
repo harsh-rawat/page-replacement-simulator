@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "statistics.h"
 #include "process_options.h"
 #include "process.h"
-#include "page_table.h"
-#include "inverted_page_table.h"
 
 
 int main(int argc, char *argv[]) {
@@ -13,14 +10,19 @@ int main(int argc, char *argv[]) {
     int p_arg = opt->p;
     int m_arg = opt->m;
 
+    //Create stats module
+    statistics *stats = CreateStatistics();
+
     // Parse trace file here
-    void *process_root = ParseTraceFile(filepath);
+    void *process_root = ParseTraceFile(filepath, stats);
 
     // Create inverted page Table with max_pages
     int max_pages = m_arg / p_arg;
     void *ipt_root = CreateInvertedPageTable(max_pages);
 
-    RunSimulation(filepath, process_root, ipt_root);
+    RunSimulation(filepath, process_root, ipt_root, stats);
+
+    PrintStatistics(stats);
 
     return 0;
 }

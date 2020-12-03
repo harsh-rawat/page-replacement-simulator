@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include "process.h"
 
-void *ParseTraceFile(char *filepath) {
+void *ParseTraceFile(char *filepath, statistics *stats) {
     FILE *file = fopen(filepath, "r");
-//    int lineIndex = 0;
+    int lineIndex = 0;
     void *root = NULL;
     long file_ptr = ftell(file);
 
@@ -23,7 +23,9 @@ void *ParseTraceFile(char *filepath) {
         }
         free(mem_reference);
         file_ptr = ftell(file);
+        lineIndex++;
     }
+    UpdateTotalMemoryReferences(stats, lineIndex);
     return root;
 }
 

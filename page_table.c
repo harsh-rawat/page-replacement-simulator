@@ -6,10 +6,12 @@
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes, void **blocked_processes,
                            int clock_time);
 
+void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick);
+
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
 void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
-                       page_table_entry *existing_pte, int is_blocked);
+                       page_table_entry *existing_pte, int is_blocked, statistics *stats);
 
 page_table_entry *create_page_table_entry(int vpn);
 
@@ -19,7 +21,7 @@ int compare_memory_trace_active_process(const void *a, const void *b);
 
 void free_process_page_frames(process *current_process);
 
-void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
+void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats) {
     //A clock for this simulation
     int clock = 0;
 
@@ -68,7 +70,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
         if (Get(&blocked_processes, existing_process->current_process, &compare_memory_trace_active_process) != NULL) {
             //Handle page fault but only add current reference to the end of next list
             handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr, NULL,
-                              1);
+                              1, stats);
         } else {
 
             page_table_entry *reference_page_table_entry = create_page_table_entry(mem_reference->vpn);
@@ -79,11 +81,11 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
                 Put(&existing_process->page_table, reference_page_table_entry, &compare_memory_trace_page_table_entry);
                 // handle page fault
                 handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
-                                  reference_page_table_entry, 0);
+                                  reference_page_table_entry, 0, stats);
             } else {
                 if (existing_page_table_entry->page_frame == NULL) { //Again this means page fault
                     handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
-                                      existing_page_table_entry, 0);
+                                      existing_page_table_entry, 0, stats);
                 } else { // This means page hit
                     void *next_ptr = GetNext(existing_process->current_process->next);
                     if (next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr)
@@ -96,6 +98,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
                     }
                     if (curr_file_pointer == existing_process->end) {
                         //Clean up all the page frames of the existing process
+                        //To-do: Integrate this with PRA
                         free_process_page_frames(existing_process);
                     }
                 }
@@ -104,7 +107,19 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root) {
         }
         free(mem_reference);
         clock++;
+        //Get stats of non-blocked and occupied pf from page replacement algo and update here
+        //To-do: Integrate this with PRA
+        update_statistics(stats, 0, 0, 0, 1);
     }
+}
+
+void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick) {
+    UpdateAverageMemoryUtilization(stats, occupied_pf);
+    UpdateAverageRunnableProcesses(stats, non_blocked);
+    if (update_clock_tick)
+        UpdateRunningTime(stats);
+    if (is_page_fault)
+        UpdateTotalPageFaults(stats);
 }
 
 void free_process_page_frames(process *current_process) {
@@ -112,14 +127,14 @@ void free_process_page_frames(process *current_process) {
 }
 
 void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
-                       page_table_entry *existing_pte, int is_blocked) {
+                       page_table_entry *existing_pte, int is_blocked, statistics *stats) {
     active_process *current_process = existing_process->current_process;
     void *next_ptr = GetNext(current_process->next);
     if (next_ptr != NULL && (long) next_ptr != file_ptr)
         AddNode(current_process->next, file_ptr);
-//    AddNode(current_process->next, file_ptr);
+
     if (!is_blocked) {
-        //To-do: Call Page Replacement Algorithm to find the page which needs to be replaced
+        //Call Page Replacement Algorithm to find the page which needs to be replaced
         int replace_page_frame = GetPageToReplace();
         current_process->unblock_page_frame = replace_page_frame;
         current_process->unblock_page_table_entry = existing_pte;
@@ -127,6 +142,7 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
         current_process->unblock_time = clock + DISK_ACCESS_TIME;
         Put(blocked_processes, current_process, &compare_memory_trace_active_process);
     }
+    update_statistics(stats, 0, 0, 1, 0);
 }
 
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes,
@@ -153,7 +169,6 @@ process *get_process_from_bst(void *process_root, memory_reference *mem_referenc
         // Throw error as you expect the process to be present
         InvalidInputError(-1);
     }
-
     free(reference_process);
 
     return existing_process;
