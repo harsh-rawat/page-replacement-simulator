@@ -59,10 +59,10 @@ int Contains(list_node *head, void *data) {
 /**
  * This method is used to delete the given node from the linked list referenced by head
  * */
-void DeleteNode(list_node *head, list_node *node) {
+void DeleteNode(list_node *head, void *data) {
     list_node *temp = head->next;
     //find the node in list which is same as node. head is slow pointer and temp is fast pointer.
-    while (temp != NULL && temp != node) {
+    while (temp != NULL && temp->data != data) {
         head = temp;
         temp = head->next;
     }

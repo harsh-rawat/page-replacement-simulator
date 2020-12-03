@@ -25,7 +25,7 @@ void *GetNext(list_node *node);
 
 int Contains(list_node *head, void *data);
 
-void DeleteNode(list_node *head, list_node *node);
+void DeleteNode(list_node *head, void *data);
 
 void DeleteLinkedList(list_node *head);
 

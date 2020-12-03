@@ -4,23 +4,23 @@
 #include <ctype.h>
 #include "input_parser.h"
 
-char *extractLineFromFile(FILE *file, int index);
+char *extractLineFromFile(FILE *file, long file_ptr);
 
 char *reallocateString(char *buffer, int len);
 
-memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex);
+memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr);
 
-memory_reference *ReadLine(FILE *file, int index) {
+memory_reference *ReadLine(FILE *file, long file_ptr) {
     //Extract the line from the file
-    char *line = extractLineFromFile(file, index);
+    char *line = extractLineFromFile(file, file_ptr);
     //Extract memory reference from the line
-    memory_reference *reference = split(line, 0, strlen(line), index);
+    memory_reference *reference = split(line, 0, strlen(line), file_ptr);
     return reference;
 }
 
-memory_reference *CreateMemoryReference(int pid, int vpn, int lineIndex) {
+memory_reference *CreateMemoryReference(int pid, int vpn, long file_ptr) {
     memory_reference *mem_ref = malloc(sizeof(memory_reference));
-    mem_ref->lineIndex = lineIndex;
+    mem_ref->file_ptr = file_ptr;
     mem_ref->pid = pid;
     mem_ref->vpn = vpn;
     return mem_ref;
@@ -30,7 +30,7 @@ memory_reference *CreateMemoryReference(int pid, int vpn, int lineIndex) {
  * This method is used to extract a line from a file. We perform buffer overflow and null byte check as we extract the line.
  * This method has been reused from our last assignment.
  * */
-char *extractLineFromFile(FILE *file, int index) {
+char *extractLineFromFile(FILE *file, long file_ptr) {
     char *buffer = malloc(sizeof(char) * MAX_BUFFER_SIZE);
     int len = 0;
     char ch;
@@ -40,10 +40,10 @@ char *extractLineFromFile(FILE *file, int index) {
 
         if (len >= MAX_BUFFER_SIZE) { // During buffer overflow exit with error
             buffer[MAX_BUFFER_SIZE - 1] = '\0';
-            BufferOverflowError(index, buffer);
+            BufferOverflowError(file_ptr, buffer);
         } else if (ch == '\0') { // If a null byte is found in line then exit with error
             buffer[len] = '\0';
-            NullByteInLineError(index, buffer);
+            NullByteInLineError(file_ptr, buffer);
         } else if (ch == EOF || ch == '\n') {
             buffer[len++] = '\0';
             break;
@@ -71,8 +71,8 @@ char *reallocateString(char *buffer, int len) {
 /**
  * This method is used to split the line on whitespaces for getting (pid,vpn)
  * */
-memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) {
-    memory_reference *ref = CreateMemoryReference(0, 0, lineIndex);
+memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr) {
+    memory_reference *ref = CreateMemoryReference(0, 0, file_ptr);
     int index;
     int num_count = 0;
     char *curr = malloc(sizeof(char) * MAX_BUFFER_SIZE);
@@ -88,7 +88,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) 
                 else if (num_count == 1)
                     ref->vpn = atoi(curr);
                 else
-                    InvalidInputError(lineIndex);
+                    InvalidInputError(file_ptr);
 
                 num_count++;
                 memset(curr, '\0', MAX_BUFFER_SIZE);
@@ -97,7 +97,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) 
             continue;
         }
         if (!isdigit(str[index - initialIndex]))
-            InvalidInputError(lineIndex);
+            InvalidInputError(file_ptr);
         curr[curr_index++] = str[index - initialIndex];
     }
 
@@ -105,31 +105,10 @@ memory_reference *split(char *str, int initialIndex, int maxLen, int lineIndex) 
     return ref;
 }
 
-memory_reference* ReadLineAtIndex(FILE* fp, int lineIndex) {
-    if (!fp) {
-        // Call invalid file pointer error here.
-    }
-    int line_count = 0;
-    char* line_buffer = NULL;
-    size_t line_buff_size = 0;
-    ssize_t line_size;
+memory_reference* ReadLineAtIndex(FILE* file, long file_ptr) {
 
-    line_size = getline(&line_buffer, &line_buff_size, fp);
-    if (line_count == lineIndex) {
-        memory_reference *reference = split(line_buffer, 0, strlen(line_buffer), lineIndex);
-        free(line_buffer);
-        line_buffer = NULL;
-        return reference;
-    }
-    while (line_size >= 0) {
-        line_count++;
-        if (line_count == lineIndex) {
-            break;
-        }
-        line_size = getline(&line_buffer, &line_buff_size, fp);
-    }
-    memory_reference *reference = split(line_buffer, 0, strlen(line_buffer), lineIndex);
-    free(line_buffer);
-    line_buffer = NULL;
+    fseek(file, file_ptr, SEEK_SET);
+    char *line = extractLineFromFile(file, file_ptr);
+    memory_reference *reference = split(line, 0, strlen(line), file_ptr);
     return reference;
 }
