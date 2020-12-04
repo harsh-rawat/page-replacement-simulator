@@ -89,6 +89,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                     handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
                                       existing_page_table_entry, 0, stats);
                 } else { // This means page hit
+                    UpdateAccessedPageFrame(page_replacement_algo, existing_page_table_entry->page_frame->ppn_id);
                     void *next_ptr = GetNext(existing_process->current_process->next);
                     if (next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr)
                         DeleteNode(existing_process->current_process->next, mem_reference->file_ptr);

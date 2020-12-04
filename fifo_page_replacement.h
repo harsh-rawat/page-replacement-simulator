@@ -26,4 +26,6 @@ void FreePageFrame(fifo_module *fifo, int ppn_id);
 
 int GetOccupiedPageFrames(fifo_module *fifo);
 
+void UpdateAccessedPageFrame(fifo_module *fifo, int ppn_id);
+
 #endif

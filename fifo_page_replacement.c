@@ -7,6 +7,8 @@ void initialize_free_list(fifo_module *fifo, int max_size);
 
 int compare_dll_ppn(const void *a, const void *b);
 
+dll_node *get_referenced_node(fifo_module *fifo, int ppn_id);
+
 fifo_module *CreateFIFOModule(int max_size) {
     fifo_module *fifo = malloc(sizeof(fifo_module));
     initialize_free_list(fifo, max_size);
@@ -30,15 +32,10 @@ int GetReplacementPage(fifo_module *fifo) {
 }
 
 void FreePageFrame(fifo_module *fifo, int ppn_id) {
-    page *reference_page = create_page(ppn_id);
-    dll_node *reference_node = Create_dll_node(reference_page);
-    dll_node *curr_node = Get(&fifo->node_tree, reference_node, &compare_dll_ppn);
-    free(reference_page);
-    free(reference_node);
-
+    dll_node *curr_node = get_referenced_node(fifo, ppn_id);
     if (curr_node == NULL) return;
 
-    reference_page = (page *) curr_node->data;
+    page *reference_page = (page *) curr_node->data;
     if (!reference_page->is_free) {
         reference_page->is_free = 1;
         DeleteDLLNode(fifo->fifo_list, curr_node);
@@ -48,6 +45,37 @@ void FreePageFrame(fifo_module *fifo, int ppn_id) {
 
 int GetOccupiedPageFrames(fifo_module *fifo) {
     return (fifo->max_size - GetSize(fifo->free_list));
+}
+
+#if USE_MODULE == LRU
+
+void UpdateAccessedPageFrame(fifo_module *fifo, int ppn_id) {
+    dll_node *curr_node = get_referenced_node(fifo, ppn_id);
+    if (curr_node == NULL) return;
+
+    page *reference_page = (page *) curr_node->data;
+    if (!reference_page->is_free) {
+        DeleteDLLNode(fifo->fifo_list, curr_node);
+        AddToBack(fifo->fifo_list, curr_node, 1);
+    }
+}
+
+#else
+void UpdateAccessedPageFrame(fifo_module* fifo, int ppn_id){
+    printf("Do nothing! Harsh\n");
+    return;
+}
+#endif
+
+dll_node *get_referenced_node(fifo_module *fifo, int ppn_id) {
+    page *reference_page = create_page(ppn_id);
+    dll_node *reference_node = Create_dll_node(reference_page);
+    dll_node *curr_node = Get(&fifo->node_tree, reference_node, &compare_dll_ppn);
+    free(reference_page);
+    free(reference_node);
+
+    if (curr_node == NULL) return NULL;
+    else return curr_node;
 }
 
 void initialize_free_list(fifo_module *fifo, int max_size) {

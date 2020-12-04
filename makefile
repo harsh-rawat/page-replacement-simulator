@@ -12,14 +12,19 @@ CC      = gcc
 CFLAGS = -Wall -pedantic -Wextra
 COMMON_OBJECTS = tsearch.o statistics.o queue.o linked_list.o doubly_linked_list.o heap.o error_handler.o input_parser.o process_options.o process.o page_table.o inverted_page_table.o
 FIFO_OBJECTS = fifo_main.o fifo_page_replacement.o
-LRU_OBJECTS = fifo_page_replacement.o
+LRU_OBJECTS = lru_main.o fifo_page_replacement.o
 CLOCK_OBJECTS =
 
 $(FIFO_PROGNAME): clean $(FIFO_OBJECTS) $(COMMON_OBJECTS)
 	$(CC) $(CFLAGS) -o $(FIFO_PROGNAME) $(COMMON_OBJECTS) $(FIFO_OBJECTS)
 
+$(LRU_PROGNAME): clean $(LRU_OBJECTS) $(COMMON_OBJECTS)
+	$(CC) $(CFLAGS) -o $(LRU_PROGNAME) $(COMMON_OBJECTS) $(LRU_OBJECTS)
+
 fifo_main.o: process.h process_options.h
 	$(CC) $(CFLAGS) -DUSE_MODULE=FIFO -o fifo_main.o -c main.c
+lru_main.o: process.h process_options.h
+	$(CC) $(CFLAGS) -DUSE_MODULE=LRU -o lru_main.o -c main.c
 fifo_page_replacement.o: doubly_linked_list.h fifo_page_replacement.h fifo_page_replacement.c
 	$(CC) $(CFLAGS) -c fifo_page_replacement.c
 
