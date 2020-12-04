@@ -11,7 +11,8 @@ void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
 void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
-                       page_table_entry *existing_pte, int is_blocked, statistics *stats);
+                       page_table_entry *existing_pte, int is_blocked, statistics *stats,
+                       running_process_tracker *runnable_tracker);
 
 page_table_entry *create_page_table_entry(int vpn);
 
@@ -78,7 +79,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
         if (Get(&blocked_processes, existing_process->current_process, &compare_memory_trace_active_process) != NULL) {
             //Handle page fault but only add current reference to the end of next list
             handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr, NULL,
-                              1, stats);
+                              1, stats, runnable_tracker);
         } else {
 
             page_table_entry *reference_page_table_entry = create_page_table_entry(mem_reference->vpn);
@@ -89,16 +90,17 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                 Put(&existing_process->page_table, reference_page_table_entry, &compare_memory_trace_page_table_entry);
                 // handle page fault
                 handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
-                                  reference_page_table_entry, 0, stats);
+                                  reference_page_table_entry, 0, stats, runnable_tracker);
             } else {
                 if (existing_page_table_entry->page_frame == NULL) { //Again this means page fault
                     handle_page_fault(disk_queue, clock, &blocked_processes, existing_process, mem_reference->file_ptr,
-                                      existing_page_table_entry, 0, stats);
+                                      existing_page_table_entry, 0, stats, runnable_tracker);
                 } else { // This means page hit
                     //First let the page replacement algorithm know which page was accessed
                     UpdateAccessedPageFrame(page_replacement_algo, existing_page_table_entry->page_frame->ppn_id);
                     //Now this process is in the runnable state
-                    if(Get(&runnable_tracker->list_processes, existing_process, &compare_memory_trace_process) == NULL){
+                    if (Get(&runnable_tracker->list_processes, existing_process, &compare_memory_trace_process) ==
+                        NULL) {
                         Put(&runnable_tracker->list_processes, existing_process, &compare_memory_trace_process);
                         runnable_tracker->running += 1;
                     }
@@ -147,7 +149,8 @@ void free_process_page_frames(process *current_process, running_process_tracker 
 }
 
 void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
-                       page_table_entry *existing_pte, int is_blocked, statistics *stats) {
+                       page_table_entry *existing_pte, int is_blocked, statistics *stats,
+                       running_process_tracker *runnable_tracker) {
     active_process *current_process = existing_process->current_process;
     void *next_ptr = GetNext(current_process->next);
     if (next_ptr == NULL || (long) next_ptr != file_ptr + 1)
