@@ -20,7 +20,7 @@ void UpdateTotalMemoryReferences(statistics *stats, int references);
 
 void UpdateTotalPageFaults(statistics *stats);
 
-void UpdateRunningTime(statistics *stats);
+void UpdateRunningTime(statistics *stats, int count);
 
 void PrintStatistics(statistics *stats);
 

@@ -30,8 +30,8 @@ void UpdateTotalPageFaults(statistics *stats) {
     stats->total_page_faults += 1;
 }
 
-void UpdateRunningTime(statistics *stats) {
-    stats->run_time += 1;
+void UpdateRunningTime(statistics *stats, int count) {
+    stats->run_time += count;
 }
 
 void PrintStatistics(statistics *stats) {

@@ -6,7 +6,8 @@
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes, void **blocked_processes,
                            int clock_time);
 
-void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick);
+void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
+                       int clock_update_count);
 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
@@ -69,11 +70,16 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
             //If blocked queue is empty as well then it means the simulation has ended
             break;
         } else {
-            //Get stats of non-blocked and occupied pf from page replacement algo and update here
-            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), 0, 0, 1);
             //If we don't have any process in runnable state and trace has ended
             //then wait for blocked process to become runnable
-            clock++;
+            active_process *curr_blocked_process = (active_process *) GetFromQueue(disk_queue);
+            int clock_difference = curr_blocked_process->unblock_time - clock;
+            //For clock_difference time, our page frames would not change as no file line left and no process in heap
+
+            //Get stats of non-blocked and occupied pf from page replacement algo and update here
+            update_statistics(stats, clock_difference * GetOccupiedPageFrames(page_replacement_algo), 0, 0, 1,
+                              clock_difference);
+            clock = curr_blocked_process->unblock_time;
             continue;
         }
 
@@ -118,7 +124,6 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                         AddToHeap(runnable_processes, (int) GetNext(existing_process->current_process->next),
                                   existing_process->current_process);
                     }
-//                    if (curr_file_pointer == existing_process->end) {
                     if (mem_reference->file_ptr == existing_process->end) {
                         //Clean up all the page frames of the existing process
                         //Integrate this with PRA
@@ -131,18 +136,19 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
             }
             clock++;
             //Get stats of non-blocked and occupied pf from page replacement algo and update here
-            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), runnable_tracker->running, 0, 1);
+            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), runnable_tracker->running, 0, 1, 1);
         }
 
         free(mem_reference);
     }
 }
 
-void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick) {
+void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
+                       int clock_update_count) {
     UpdateAverageMemoryUtilization(stats, occupied_pf);
     UpdateAverageRunnableProcesses(stats, non_blocked);
     if (update_clock_tick)
-        UpdateRunningTime(stats);
+        UpdateRunningTime(stats, clock_update_count);
     if (is_page_fault)
         UpdateTotalPageFaults(stats);
 }
@@ -178,7 +184,7 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
         if (Remove(&runnable_tracker->list_processes, current_process, &compare_memory_trace_process))
             runnable_tracker->running -= 1;
 
-        update_statistics(stats, 0, 0, 1, 0);
+        update_statistics(stats, 0, 0, 1, 0, 0);
     }
 }
 
