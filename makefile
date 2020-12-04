@@ -15,11 +15,11 @@ FIFO_OBJECTS = fifo_main.o fifo_page_replacement.o
 LRU_OBJECTS = fifo_page_replacement.o
 CLOCK_OBJECTS =
 
-$(FIFO_PROGNAME): $(COMMON_OBJECTS) $(FIFO_OBJECTS)
+$(FIFO_PROGNAME): $(FIFO_OBJECTS) $(COMMON_OBJECTS)
 	$(CC) $(CFLAGS) -o $(FIFO_PROGNAME) $(COMMON_OBJECTS) $(FIFO_OBJECTS)
 
 fifo_main.o: process.h process_options.h
-	$(CC) $(CFLAGS) -DUSE_MODULE=FIFO -c main.c
+	$(CC) $(CFLAGS) -DUSE_MODULE=FIFO -o fifo_main.o -c main.c
 fifo_page_replacement.o: doubly_linked_list.h fifo_page_replacement.h fifo_page_replacement.c
 	$(CC) $(CFLAGS) -c fifo_page_replacement.c
 
