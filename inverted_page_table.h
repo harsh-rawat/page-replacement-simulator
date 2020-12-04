@@ -3,7 +3,6 @@
 
 #include "tables.h"
 #include "tsearch.h"
-#include "fifo_page_replacement.h"
 
 void Unlink_pf_pte(void *ipt_root, int pf_id);
 

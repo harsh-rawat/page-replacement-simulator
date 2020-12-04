@@ -58,6 +58,8 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
             //If blocked queue is empty as well then it means the simulation has ended
             break;
         } else {
+            //Get stats of non-blocked and occupied pf from page replacement algo and update here
+            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), -1, 0, 1);
             //If we don't have any process in runnable state and trace has ended
             //then wait for blocked process to become runnable
             clock++;
@@ -108,7 +110,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
         free(mem_reference);
         clock++;
         //Get stats of non-blocked and occupied pf from page replacement algo and update here
-        update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), 0, 0, 1);
+        update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), -1, 0, 1);
     }
 }
 

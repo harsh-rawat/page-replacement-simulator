@@ -12,6 +12,7 @@ fifo_module *CreateFIFOModule(int max_size) {
     initialize_free_list(fifo, max_size);
     fifo->fifo_list = CreateDoublyLinkedList();
     fifo->max_size = max_size;
+    return fifo;
 }
 
 int GetReplacementPage(fifo_module *fifo) {

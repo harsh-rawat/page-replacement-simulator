@@ -1,6 +1,7 @@
-#include "statistics.h"
 #include "process_options.h"
 #include "process.h"
+
+fifo_module *page_replacement_algo = NULL;
 
 int main(int argc, char *argv[]) {
     //Parse the program arguments. If provided else consider the default ones

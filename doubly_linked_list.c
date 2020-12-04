@@ -94,4 +94,5 @@ dll_node *Create_dll_node(void *data) {
     new_node->data = data;
     new_node->next = NULL;
     new_node->prev = NULL;
+    return new_node;
 }
