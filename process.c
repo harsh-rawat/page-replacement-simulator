@@ -37,8 +37,7 @@ active_process *CreateActiveProcess(int pid) {
     new_process->unblock_time = 0;
     new_process->unblock_page_frame = -1;
     new_process->unblock_page_table_entry = NULL;
-    new_process->next = CreateLinkedList();
-//    AddNode(new_process->next, pid);
+    new_process->next = CreateDoublyLinkedList();
     return new_process;
 }
 

@@ -51,18 +51,6 @@ dll_node *AddToBack(doubly_linked_list *list, void *data, int isNode) {
     return new_node;
 }
 
-void *GetNodeFromFront(doubly_linked_list *list) {
-    //No data in the list
-    if (list == NULL || list->head->next == list->tail) return NULL;
-    else return list->head->next;
-}
-
-void *GetNodeFromEnd(doubly_linked_list *list) {
-    //No data in the list
-    if (list == NULL || list->head->next == list->tail) return NULL;
-    else return list->tail->prev;
-}
-
 int GetSize(doubly_linked_list *list) {
     if (list == NULL) return NULL;
     return list->size;
@@ -95,4 +83,9 @@ dll_node *Create_dll_node(void *data) {
     new_node->next = NULL;
     new_node->prev = NULL;
     return new_node;
+}
+
+void *GetNext(doubly_linked_list *list) {
+    if (list == NULL || list->head->next == list->tail) return NULL;
+    else return list->head->next->data;
 }

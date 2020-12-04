@@ -23,10 +23,6 @@ dll_node *AddToFront(doubly_linked_list *list, void *data, int isNode);
 
 dll_node *AddToBack(doubly_linked_list *list, void *data, int isNode);
 
-void *GetNodeFromFront(doubly_linked_list *list);
-
-void *GetNodeFromEnd(doubly_linked_list *list);
-
 int GetSize(doubly_linked_list *list);
 
 void DeleteDLLNode(doubly_linked_list *list, dll_node *node);
@@ -34,5 +30,7 @@ void DeleteDLLNode(doubly_linked_list *list, dll_node *node);
 dll_node *DeleteFromFront(doubly_linked_list *list);
 
 dll_node *DeleteFromEnd(doubly_linked_list *list);
+
+void *GetNext(doubly_linked_list *list);
 
 #endif

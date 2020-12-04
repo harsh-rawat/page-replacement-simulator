@@ -10,7 +10,7 @@ LRU_PROGNAME = 537pfsim-lru
 CLOCK_PROGNAME = 537pfsim-clock
 CC      = gcc
 CFLAGS = -Wall -pedantic -Wextra
-COMMON_OBJECTS = tsearch.o statistics.o queue.o linked_list.o doubly_linked_list.o heap.o error_handler.o input_parser.o process_options.o process.o page_table.o inverted_page_table.o
+COMMON_OBJECTS = tsearch.o statistics.o queue.o doubly_linked_list.o heap.o error_handler.o input_parser.o process_options.o process.o page_table.o inverted_page_table.o
 FIFO_OBJECTS = fifo_main.o fifo_page_replacement.o
 LRU_OBJECTS = lru_main.o fifo_page_replacement.o
 CLOCK_OBJECTS =
@@ -32,7 +32,7 @@ input_parser.o: error_handler.h input_parser.h input_parser.c
 	$(CC) $(CFLAGS) -c input_parser.c
 process_options.o: process_options.h process_options.c
 	$(CC) $(CFLAGS) -c process_options.c
-process.o: statistics.h tsearch.h linked_list.h input_parser.h page_table.h error_handler.h process.h process.c
+process.o: statistics.h tsearch.h input_parser.h page_table.h error_handler.h process.h process.c
 	$(CC) $(CFLAGS) -c process.c
 page_table.o: queue.h heap.h input_parser.h tsearch.h error_handler.h inverted_page_table.h tables.h process.h statistics.h page_table.c page_table.h
 	$(CC) $(CFLAGS) -c page_table.c
@@ -44,8 +44,6 @@ statistics.o: statistics.c statistics.h
 	$(CC) $(CFLAGS) -c statistics.c
 queue.o: queue.c queue.h
 	$(CC) $(CFLAGS) -c queue.c
-linked_list.o: error_handler.h linked_list.c linked_list.h
-	$(CC) $(CFLAGS) -c linked_list.c
 doubly_linked_list.o: doubly_linked_list.c doubly_linked_list.h
 	$(CC) $(CFLAGS) -c doubly_linked_list.c
 heap.o: heap.c heap.h

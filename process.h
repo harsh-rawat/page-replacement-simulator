@@ -2,7 +2,6 @@
 #define PAGE_REPLACEMENT_SIMULATOR_PAGE_PROCESS_H
 
 #include "statistics.h"
-#include "linked_list.h"
 #include "tsearch.h"
 #include "input_parser.h"
 #include "page_table.h"
@@ -13,7 +12,7 @@ typedef struct active_process {
     int unblock_time;
     int unblock_page_frame;
     page_table_entry *unblock_page_table_entry;
-    list_node *next;
+    doubly_linked_list *next;
 } active_process;
 
 struct process {

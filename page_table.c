@@ -24,6 +24,10 @@ int compare_memory_trace_active_process(const void *a, const void *b);
 
 void free_process_page_frames(process *current_process, running_process_tracker *runnable_tracker);
 
+/**
+ * Code starts from below!
+ * */
+
 void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats) {
     //A clock for this simulation
     int clock = 0;
@@ -107,7 +111,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
 
                     void *next_ptr = GetNext(existing_process->current_process->next);
                     if (next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr + 1)
-                        DeleteNode(existing_process->current_process->next, mem_reference->file_ptr + 1);
+                        DeleteFromFront(existing_process->current_process->next);
                     //Add the next readable line for the existing process (In case it was previously blocked)
                     if (GetNext(existing_process->current_process->next) != NULL) {
                         //There is a line which needs to be read before moving to current line
@@ -154,7 +158,7 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
     active_process *current_process = existing_process->current_process;
     void *next_ptr = GetNext(current_process->next);
     if (next_ptr == NULL || (long) next_ptr != file_ptr + 1)
-        AddNode(current_process->next, file_ptr + 1);
+        AddToBack(current_process->next, file_ptr + 1, 0);
 
     if (!is_blocked) {
         //Call Page Replacement Algorithm to find the page which needs to be replaced
