@@ -29,6 +29,8 @@ void RemoveFromQueue(Queue *q);
 
 void *GetFromQueue(Queue *q);
 
+void *GetFromQueueEnd(Queue *q);
+
 bool IsEmptyQueue(Queue *q);
 
 #endif //PAGE_REPLACEMENT_SIMULATOR_QUEUE_H

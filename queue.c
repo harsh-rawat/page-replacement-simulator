@@ -50,6 +50,11 @@ void *GetFromQueue(Queue *q) {
     else return q->front->data;
 }
 
+void *GetFromQueueEnd(Queue *q) {
+    if (q->front == NULL) return NULL;
+    else return q->rear->data;
+}
+
 bool IsEmptyQueue(Queue *q) {
     if (q->front == NULL)
         return true;

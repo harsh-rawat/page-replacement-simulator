@@ -30,7 +30,7 @@ void free_process_page_frames(process *current_process, running_process_tracker 
 
 void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats) {
     //A clock for this simulation
-    int clock = 0;
+    int clock = 1;
 
     //A min-heap for current process and older process which were blocked.
     Heap *runnable_processes = CreateHeap();
@@ -129,11 +129,12 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                 }
                 free(reference_page_table_entry);
             }
+            clock++;
+            //Get stats of non-blocked and occupied pf from page replacement algo and update here
+            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), runnable_tracker->running, 0, 1);
         }
+
         free(mem_reference);
-        clock++;
-        //Get stats of non-blocked and occupied pf from page replacement algo and update here
-        update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), runnable_tracker->running, 0, 1);
     }
 }
 
@@ -161,12 +162,17 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
         AddToBack(current_process->next, file_ptr + 1, 0);
 
     if (!is_blocked) {
+        active_process *blocked_process_from_queue = GetFromQueueEnd(disk_queue);
         //Call Page Replacement Algorithm to find the page which needs to be replaced
         int replace_page_frame = GetReplacementPage(page_replacement_algo);
         current_process->unblock_page_frame = replace_page_frame;
         current_process->unblock_page_table_entry = existing_pte;
         AddToQueue(disk_queue, current_process);
-        current_process->unblock_time = clock + DISK_ACCESS_TIME;
+        if (blocked_process_from_queue == NULL)
+            current_process->unblock_time = clock + DISK_ACCESS_TIME + 1;
+        else
+            current_process->unblock_time = blocked_process_from_queue->unblock_time + DISK_ACCESS_TIME;
+
         Put(blocked_processes, current_process, &compare_memory_trace_active_process);
 
         if (Remove(&runnable_tracker->list_processes, current_process, &compare_memory_trace_process))
