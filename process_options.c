@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "process_options.h"
+#include "error_handler.h"
 
 options *process_options(int argc, char *argv[]) {
     if (argc == 1) {
@@ -13,31 +14,41 @@ options *process_options(int argc, char *argv[]) {
     }
     options *opt = malloc(sizeof(options));
     opt->filepath = malloc(sizeof(char) * 4096);
+    opt->p = 1024;
+    opt->m = 1 * MEGA;
+
+    int index = 1;
     int c = 0;
     while ((c = getopt(argc, argv, "p::m::")) != -1) {
         switch (c) {
             case 'p':
-                if (optarg == NULL)
-                    opt->p = 4096;
+                if (optarg == NULL) {
+                    InvalidInputError(-1);
+                    exit(EXIT_FAILURE);
+                }
                 else
                     opt->p = atoi(optarg);
+                index += 2;
                 break;
             case 'm':
-                if (optarg == NULL)
-                    opt->m = 1 * MEGA;
+                if (optarg == NULL) {
+                    InvalidInputError(-1);
+                    exit(EXIT_FAILURE);
+                }
                 else
                     opt->m = atoi(optarg) * MEGA;
+                index += 2;
                 break;
             default:
-                printf("Nothing here!");
+                printf("Nothing here!\n");
         }
     }
 
-    if (argc - optind > 1) {
-        printf("Throw error!\n");
+    if (argc - index > 1) {
+        InvalidInputError(-1);
         exit(EXIT_FAILURE);
     }
-    strcpy(opt->filepath, argv[optind]);
+    strcpy(opt->filepath, argv[index]);
     return opt;
 }
 
