@@ -7,9 +7,10 @@ typedef struct statistics {
     int total_memory_references;
     int total_page_faults;
     int run_time;
+    int max_page_size;
 } statistics;
 
-statistics *CreateStatistics();
+statistics *CreateStatistics(int max_page_size);
 
 void UpdateAverageMemoryUtilization(statistics *stats, int occupied_pf);
 

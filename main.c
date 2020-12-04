@@ -17,14 +17,15 @@ int main(int argc, char *argv[]) {
     int p_arg = opt->p;
     int m_arg = opt->m;
 
+    // Create inverted page Table with max_pages
+    int max_pages = m_arg / p_arg;
+
     //Create stats module
-    statistics *stats = CreateStatistics();
+    statistics *stats = CreateStatistics(max_pages);
 
     // Parse trace file here
     void *process_root = ParseTraceFile(filepath, stats);
 
-    // Create inverted page Table with max_pages
-    int max_pages = m_arg / p_arg;
     void *ipt_root = CreateInvertedPageTable(max_pages);
 
     if (USE_MODULE == FIFO)

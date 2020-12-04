@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include "statistics.h"
 
-statistics *CreateStatistics() {
+statistics *CreateStatistics(int max_page_size) {
     statistics *stats = malloc(sizeof(statistics));
     stats->average_memory_utilization_count_total = 0.0;
     stats->average_runnable_processes_count_total = 0.0;
     stats->total_memory_references = 0;
     stats->total_page_faults = 0;
     stats->run_time = 0;
+    stats->max_page_size = max_page_size;
 
     return stats;
 }
@@ -34,7 +35,8 @@ void UpdateRunningTime(statistics *stats) {
 }
 
 void PrintStatistics(statistics *stats) {
-    double amu = (stats->average_memory_utilization_count_total / (1.0 * stats->run_time));
+    double amu =
+            (stats->average_memory_utilization_count_total / (1.0 * stats->run_time)) / (1.0 * stats->max_page_size);
     double arp = (stats->average_runnable_processes_count_total / (1.0 * stats->run_time));
     printf("Average Memory Utilization: %f\n"
            "Average Runnable Processes: %f\n"
