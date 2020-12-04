@@ -13,6 +13,8 @@ memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr);
 memory_reference *ReadLine(FILE *file, long file_ptr) {
     //Extract the line from the file
     char *line = extractLineFromFile(file, file_ptr);
+    if (strcmp(line, "")==0)
+        return NULL;
     //Extract memory reference from the line
     memory_reference *reference = split(line, 0, strlen(line), file_ptr);
     return reference;

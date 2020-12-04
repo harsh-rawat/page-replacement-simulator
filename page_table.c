@@ -52,11 +52,17 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
         if (!IsEmptyHeap(runnable_processes)) {
             current_process = ExtractMin(runnable_processes);
             int next_file_ptr = (int) GetNext(current_process->next);
-            mem_reference = ReadLineAtIndex(file, next_file_ptr);
 
+            mem_reference = ReadLineAtIndex(file, next_file_ptr-1);
             fseek(file, curr_file_pointer, SEEK_SET);
         } else if (feof(file) == 0) {
             mem_reference = ReadLine(file, curr_file_pointer);
+            if (mem_reference == NULL) {
+                //Get stats of non-blocked and occupied pf from page replacement algo and update here
+                update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), -1, 0, 1);
+                clock++;
+                continue;
+            }
             curr_file_pointer = ftell(file);
         } else if (IsEmptyQueue(disk_queue)) {
             //If blocked queue is empty as well then it means the simulation has ended
@@ -95,15 +101,16 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                 } else { // This means page hit
                     UpdateAccessedPageFrame(page_replacement_algo, existing_page_table_entry->page_frame->ppn_id);
                     void *next_ptr = GetNext(existing_process->current_process->next);
-                    if (next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr)
-                        DeleteNode(existing_process->current_process->next, mem_reference->file_ptr);
+                    if (next_ptr != NULL && (long) next_ptr == mem_reference->file_ptr+1)
+                        DeleteNode(existing_process->current_process->next, mem_reference->file_ptr+1);
                     //Add the next readable line for the existing process (In case it was previously blocked)
                     if (GetNext(existing_process->current_process->next) != NULL) {
                         //There is a line which needs to be read before moving to current line
                         AddToHeap(runnable_processes, (int) GetNext(existing_process->current_process->next),
                                   existing_process->current_process);
                     }
-                    if (curr_file_pointer == existing_process->end) {
+//                    if (curr_file_pointer == existing_process->end) {
+                    if (mem_reference->file_ptr == existing_process->end) {
                         //Clean up all the page frames of the existing process
                         //To-do: Integrate this with PRA
                         free_process_page_frames(existing_process, runnable_tracker);
@@ -138,8 +145,8 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
                        page_table_entry *existing_pte, int is_blocked, statistics *stats) {
     active_process *current_process = existing_process->current_process;
     void *next_ptr = GetNext(current_process->next);
-    if (next_ptr != NULL && (long) next_ptr != file_ptr)
-        AddNode(current_process->next, file_ptr);
+    if (next_ptr == NULL || (long) next_ptr != file_ptr+1)
+        AddNode(current_process->next, file_ptr+1);
 
     if (!is_blocked) {
         //Call Page Replacement Algorithm to find the page which needs to be replaced
