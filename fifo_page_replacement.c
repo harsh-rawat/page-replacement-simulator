@@ -62,7 +62,6 @@ void UpdateAccessedPageFrame(fifo_module *fifo, int ppn_id) {
 
 #else
 void UpdateAccessedPageFrame(fifo_module* fifo, int ppn_id){
-    printf("Do nothing! Harsh\n");
     return;
 }
 #endif
