@@ -8,18 +8,21 @@ void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_pro
 
 void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick);
 
-process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
+process *
+get_process_from_bst(void *process_root, memory_reference *mem_reference, running_process_tracker *runnable_tracker);
 
 void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked, statistics *stats);
 
 page_table_entry *create_page_table_entry(int vpn);
 
+running_process_tracker *create_running_process_tracker();
+
 int compare_memory_trace_page_table_entry(const void *a, const void *b);
 
 int compare_memory_trace_active_process(const void *a, const void *b);
 
-void free_process_page_frames(process *current_process);
+void free_process_page_frames(process *current_process, running_process_tracker *runnable_tracker);
 
 void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats) {
     //A clock for this simulation
@@ -36,7 +39,8 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
 
     FILE *file = fopen(filepath, "r");
     long curr_file_pointer = ftell(file);
-//    int lineIndex = 0;
+
+    running_process_tracker *runnable_tracker = create_running_process_tracker();
 
     while (!IsEmptyQueue(disk_queue) || feof(file) == 0) {
         //Perform some bookkeeping tasks along with disk_queue update
@@ -49,7 +53,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
             current_process = ExtractMin(runnable_processes);
             int next_file_ptr = (int) GetNext(current_process->next);
             mem_reference = ReadLineAtIndex(file, next_file_ptr);
-//            DeleteNode(current_process->next, next_file_ptr);
+
             fseek(file, curr_file_pointer, SEEK_SET);
         } else if (feof(file) == 0) {
             mem_reference = ReadLine(file, curr_file_pointer);
@@ -59,14 +63,14 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
             break;
         } else {
             //Get stats of non-blocked and occupied pf from page replacement algo and update here
-            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), -1, 0, 1);
+            update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), runnable_tracker->running, 0, 1);
             //If we don't have any process in runnable state and trace has ended
             //then wait for blocked process to become runnable
             clock++;
             continue;
         }
 
-        process *existing_process = get_process_from_bst(process_root, mem_reference);
+        process *existing_process = get_process_from_bst(process_root, mem_reference, runnable_tracker);
 
         //Is the current memory reference process blocked
         if (Get(&blocked_processes, existing_process->current_process, &compare_memory_trace_active_process) != NULL) {
@@ -102,7 +106,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                     if (curr_file_pointer == existing_process->end) {
                         //Clean up all the page frames of the existing process
                         //To-do: Integrate this with PRA
-                        free_process_page_frames(existing_process);
+                        free_process_page_frames(existing_process, runnable_tracker);
                     }
                 }
                 free(reference_page_table_entry);
@@ -111,7 +115,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
         free(mem_reference);
         clock++;
         //Get stats of non-blocked and occupied pf from page replacement algo and update here
-        update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), -1, 0, 1);
+        update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), runnable_tracker->running, 0, 1);
     }
 }
 
@@ -124,7 +128,9 @@ void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int 
         UpdateTotalPageFaults(stats);
 }
 
-void free_process_page_frames(process *current_process) {
+void free_process_page_frames(process *current_process, running_process_tracker *runnable_tracker) {
+    if (Remove(&runnable_tracker->list_processes, current_process, &compare_memory_trace_process))
+        runnable_tracker->running -= 1;
     TraverseTree(current_process->page_table, &Callback_free_page_frames);
 }
 
@@ -162,7 +168,8 @@ void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_pro
     }
 }
 
-process *get_process_from_bst(void *process_root, memory_reference *mem_reference) {
+process *
+get_process_from_bst(void *process_root, memory_reference *mem_reference, running_process_tracker *runnable_tracker) {
     process *reference_process = create_process(mem_reference->pid, 0);
     process *existing_process = Get(&process_root, reference_process,
                                     &compare_memory_trace_process);//Get the process from hashtable
@@ -171,8 +178,11 @@ process *get_process_from_bst(void *process_root, memory_reference *mem_referenc
         // Throw error as you expect the process to be present
         InvalidInputError(-1);
     }
-    free(reference_process);
 
+    if (Put(&runnable_tracker->list_processes, reference_process, &compare_memory_trace_process))
+        runnable_tracker->running += 1;
+
+    free(reference_process);
     return existing_process;
 }
 
@@ -181,6 +191,13 @@ page_table_entry *create_page_table_entry(int vpn) {
     new_page_table_entry->vpn = vpn;
     new_page_table_entry->page_frame = NULL;
     return new_page_table_entry;
+}
+
+running_process_tracker *create_running_process_tracker() {
+    running_process_tracker *running = malloc(sizeof(running_process_tracker));
+    running->running = 0;
+    running->list_processes = NULL;
+    return running;
 }
 
 int compare_memory_trace_page_table_entry(const void *a, const void *b) {

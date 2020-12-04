@@ -16,7 +16,7 @@ int Put(void **root, void *data, tsearch_compare comparator);
 
 void *Get(void **root, void *search_node, tsearch_compare comparator);
 
-void Remove(void **root, void *data_node, tsearch_compare comparator);
+int Remove(void **root, void *data_node, tsearch_compare comparator);
 
 void TraverseTree(void *root, tsearch_walk callback);
 

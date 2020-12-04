@@ -11,6 +11,11 @@
 #include "process.h"
 #include "statistics.h"
 
+typedef struct running_process_tracker {
+    int running;
+    void *list_processes;
+} running_process_tracker;
+
 void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats);
 
 #endif

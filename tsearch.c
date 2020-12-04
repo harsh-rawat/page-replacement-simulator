@@ -31,12 +31,14 @@ void *Get(void **root, void *search_node, tsearch_compare comparator) {
 }
 
 //Remove a node from the data structure
-void Remove(void **root, void *data_node, tsearch_compare comparator) {
+//Returns 1 if success else 0
+int Remove(void **root, void *data_node, tsearch_compare comparator) {
     void *data = Get(root, data_node, comparator);
     if (data != NULL) {
         tdelete(data, root, comparator);
+        return 1;
     }
-    free(data);
+    return 0;
 }
 
 void TraverseTree(void *root, tsearch_walk callback) {
