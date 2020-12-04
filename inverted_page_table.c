@@ -37,6 +37,7 @@ void Callback_free_page_frames(const void *data, VISIT order, int depth) {
 
     //Free the page frame
     page_frame *page_frame = entry->page_frame;
+    FreePageFrame(page_replacement_algo, page_frame->ppn_id);
     page_frame->page_table_entry = NULL;
     entry->page_frame = NULL;
 }

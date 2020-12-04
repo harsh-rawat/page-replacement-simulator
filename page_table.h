@@ -10,7 +10,7 @@
 #include "tables.h"
 #include "process.h"
 #include "statistics.h"
-#include "page_replacement_algorithm.h"
+#include "fifo_page_replacement.h"
 
 void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats);
 

@@ -108,8 +108,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
         free(mem_reference);
         clock++;
         //Get stats of non-blocked and occupied pf from page replacement algo and update here
-        //To-do: Integrate this with PRA
-        update_statistics(stats, 0, 0, 0, 1);
+        update_statistics(stats, GetOccupiedPageFrames(page_replacement_algo), 0, 0, 1);
     }
 }
 
@@ -135,14 +134,14 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
 
     if (!is_blocked) {
         //Call Page Replacement Algorithm to find the page which needs to be replaced
-        int replace_page_frame = GetPageToReplace();
+        int replace_page_frame = GetReplacementPage(page_replacement_algo);
         current_process->unblock_page_frame = replace_page_frame;
         current_process->unblock_page_table_entry = existing_pte;
         AddToQueue(disk_queue, current_process);
         current_process->unblock_time = clock + DISK_ACCESS_TIME;
         Put(blocked_processes, current_process, &compare_memory_trace_active_process);
+        update_statistics(stats, 0, 0, 1, 0);
     }
-    update_statistics(stats, 0, 0, 1, 0);
 }
 
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes,
