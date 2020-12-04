@@ -14,6 +14,7 @@ fifo_module *CreateFIFOModule(int max_size) {
     initialize_free_list(fifo, max_size);
     fifo->fifo_list = CreateDoublyLinkedList();
     fifo->max_size = max_size;
+    fifo->free_pages = max_size;
     return fifo;
 }
 
@@ -25,10 +26,20 @@ int GetReplacementPage(fifo_module *fifo) {
         free_node = DeleteFromFront(fifo->fifo_list);
     }
     page *replacement = (page *) free_node->data;
-    replacement->is_free = 0;
     AddToBack(fifo->fifo_list, free_node, 1);
 
     return replacement->ppn_id;
+}
+
+void UpdatePageFrameIntoMemory(fifo_module *fifo, int ppn_id) {
+    dll_node *curr_node = get_referenced_node(fifo, ppn_id);
+    if (curr_node == NULL) return;
+
+    page *reference_page = (page *) curr_node->data;
+    if (reference_page->is_free) {
+        reference_page->is_free = 0;
+        fifo->free_pages -= 1;
+    }
 }
 
 void FreePageFrame(fifo_module *fifo, int ppn_id) {
@@ -38,13 +49,14 @@ void FreePageFrame(fifo_module *fifo, int ppn_id) {
     page *reference_page = (page *) curr_node->data;
     if (!reference_page->is_free) {
         reference_page->is_free = 1;
+        fifo->free_pages += 1;
         DeleteDLLNode(fifo->fifo_list, curr_node);
         AddToBack(fifo->free_list, curr_node, 1);
     }
 }
 
 int GetOccupiedPageFrames(fifo_module *fifo) {
-    return (fifo->max_size - GetSize(fifo->free_list));
+    return (fifo->max_size - fifo->free_pages);
 }
 
 #if USE_MODULE == LRU

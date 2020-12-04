@@ -194,6 +194,7 @@ void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_pro
         RemoveFromQueue(disk_queue);
         AddToHeap(runnable_processes, (int) GetNext(curr_process->next), curr_process);
         Remove(blocked_processes, curr_process, &compare_memory_trace_active_process);
+        UpdatePageFrameIntoMemory(page_replacement_algo, curr_process->unblock_page_frame);
     }
 }
 

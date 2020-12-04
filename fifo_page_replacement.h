@@ -6,6 +6,7 @@
 
 typedef struct fifo_module {
     int max_size;
+    int free_pages;
     doubly_linked_list *free_list;
     void *node_tree;
     doubly_linked_list *fifo_list;
@@ -25,6 +26,8 @@ int GetReplacementPage(fifo_module *fifo);
 void FreePageFrame(fifo_module *fifo, int ppn_id);
 
 int GetOccupiedPageFrames(fifo_module *fifo);
+
+void UpdatePageFrameIntoMemory(fifo_module *fifo, int ppn_id);
 
 void UpdateAccessedPageFrame(fifo_module *fifo, int ppn_id);
 
