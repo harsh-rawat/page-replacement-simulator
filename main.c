@@ -1,5 +1,6 @@
 #include "process_options.h"
 #include "process.h"
+#include "fifo_page_replacement.h"
 
 #if USE_MODULE == FIFO
 fifo_module *page_replacement_algo = NULL;

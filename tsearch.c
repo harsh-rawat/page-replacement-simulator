@@ -36,7 +36,7 @@ void Remove(void **root, void *data_node, tsearch_compare comparator) {
     if (data != NULL) {
         tdelete(data, root, comparator);
     }
-    free(data);
+//    free(data);
 }
 
 void TraverseTree(void *root, tsearch_walk callback) {

@@ -10,6 +10,8 @@ void *ParseTraceFile(char *filepath, statistics *stats) {
 
     while (feof(file) == 0) {
         memory_reference *mem_reference = ReadLine(file, file_ptr);
+        if (mem_reference == NULL)
+            continue;
         //Check if the process id exists in the hashtable
         process *reference_process = create_process(mem_reference->pid, file_ptr);
         process *existing_process = Get(&root, reference_process,
