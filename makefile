@@ -15,7 +15,7 @@ FIFO_OBJECTS = fifo_main.o fifo_page_replacement.o
 LRU_OBJECTS = fifo_page_replacement.o
 CLOCK_OBJECTS =
 
-$(FIFO_PROGNAME): $(FIFO_OBJECTS) $(COMMON_OBJECTS)
+$(FIFO_PROGNAME): clean $(FIFO_OBJECTS) $(COMMON_OBJECTS)
 	$(CC) $(CFLAGS) -o $(FIFO_PROGNAME) $(COMMON_OBJECTS) $(FIFO_OBJECTS)
 
 fifo_main.o: process.h process_options.h
