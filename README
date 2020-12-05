@@ -2,6 +2,25 @@
 # Sidharth Gurbani, gurbani, gurbani
 
 "README" file for programming assignment 4
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Build all the executables using-
+make all
+
+Build each executable using
+make 537pfsim-fifo
+make 537pfsim-lru
+make 537pfsim-clock
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Script to run all the processes for each of the combination of "p" and "m" values for every trace file and each of the three algorithms:
+
+---	We have included a file "run.sh" which can be executed to run all the different combinations as mentioned above. There are two different p values, three m values, 4 tracefiles and 3 page replace algorithms. In total, the script will execute 72 runs.
+
+---	We are including a outputlogs.txt which we ran in the CSL machine and you can view that to get an idea about the performance and statistics of every execution for each algorithm.
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
 The flow of the algorithm for the assignment is as follows:
 
@@ -27,10 +46,3 @@ The flow of the algorithm for the assignment is as follows:
 	c. Total memory references: This is equal to the number of memory references made by the trace file.
 	d. Total page ins: This is the number of page faults triggered during the execution
 	e. Running time: This is the number of clock ticks for the entire execution was running.
-
-
-Script to run all the processes for each of the combination of "p" and "m" values for every trace file and each of the three algorithms:
-
-	We have included a file "run.sh" which can be executed to run all the different combinations as mentioned above. There are two different p values, three m values, 4 tracefiles and 3 page replace algorithms. In total, the script will execute 72 runs. 
-
-	There are some executions which take more than required time and for simplicity, I am including a outputlogs.txt which we ran in the CSL machine and you can view that to get an idea about the performance and statistics of every execution for each algorithm.
