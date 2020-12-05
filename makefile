@@ -5,7 +5,7 @@
 #
 #
 
-FIFO_PROGNAME = 537pfsim-fifo
+#FIFO_PROGNAME = 537pfsim-fifo
 LRU_PROGNAME = 537pfsim-lru
 CLOCK_PROGNAME = 537pfsim-clock
 CC      = gcc

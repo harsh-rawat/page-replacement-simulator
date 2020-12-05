@@ -4,8 +4,8 @@
 
 statistics *CreateStatistics(int max_page_size) {
     statistics *stats = malloc(sizeof(statistics));
-    stats->average_memory_utilization_count_total = 0.0;
-    stats->average_runnable_processes_count_total = 0.0;
+    stats->average_memory_utilization_count_total = 0;
+    stats->average_runnable_processes_count_total = 0;
     stats->total_memory_references = 0;
     stats->total_page_faults = 0;
     stats->run_time = 0;
@@ -14,7 +14,7 @@ statistics *CreateStatistics(int max_page_size) {
     return stats;
 }
 
-void UpdateAverageMemoryUtilization(statistics *stats, int occupied_pf) {
+void UpdateAverageMemoryUtilization(statistics *stats, long occupied_pf) {
     stats->average_memory_utilization_count_total += occupied_pf;
 }
 
@@ -22,7 +22,7 @@ void UpdateAverageRunnableProcesses(statistics *stats, int non_blocked) {
     stats->average_runnable_processes_count_total += non_blocked;
 }
 
-void UpdateTotalMemoryReferences(statistics *stats, int references) {
+void UpdateTotalMemoryReferences(statistics *stats, long references) {
     stats->total_memory_references = references;
 }
 

@@ -4,14 +4,14 @@
 
 
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes, void **blocked_processes,
-                           int clock_time);
+                           long clock_time);
 
-void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
+void update_statistics(statistics *stats, long occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
                        long clock_update_count);
 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
-void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
+void handle_page_fault(Queue *disk_queue, long clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked, statistics *stats,
                        running_process_tracker *runnable_tracker);
 
@@ -31,7 +31,7 @@ void free_process_page_frames(process *current_process, running_process_tracker 
 
 void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistics *stats) {
     //A clock for this simulation
-    int clock = 1;
+    long clock = 1;
 
     //A min-heap for current process and older process which were blocked.
     Heap *runnable_processes = CreateHeap();
@@ -143,7 +143,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
     }
 }
 
-void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
+void update_statistics(statistics *stats, long occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
                        long clock_update_count) {
     UpdateAverageMemoryUtilization(stats, occupied_pf);
     UpdateAverageRunnableProcesses(stats, non_blocked);
@@ -159,7 +159,7 @@ void free_process_page_frames(process *current_process, running_process_tracker 
     TraverseTree(current_process->page_table, &Callback_free_page_frames);
 }
 
-void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, process *existing_process, long file_ptr,
+void handle_page_fault(Queue *disk_queue, long clock, void **blocked_processes, process *existing_process, long file_ptr,
                        page_table_entry *existing_pte, int is_blocked, statistics *stats,
                        running_process_tracker *runnable_tracker) {
     active_process *current_process = existing_process->current_process;
@@ -189,7 +189,7 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
 }
 
 void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_processes,
-                           void **blocked_processes, int clock_time) {
+                           void **blocked_processes, long clock_time) {
     //Update the queue and move any process to runnable if required
     active_process *curr_process = (active_process *) GetFromQueue(disk_queue);
     if (curr_process != NULL && curr_process->unblock_time == clock_time) {

@@ -4,7 +4,7 @@
 
 void *ParseTraceFile(char *filepath, statistics *stats) {
     FILE *file = fopen(filepath, "r");
-    int lineIndex = 0;
+    long lineIndex = 0;
     void *root = NULL;
     long file_ptr = ftell(file);
 
