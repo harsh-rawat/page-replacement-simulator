@@ -24,7 +24,7 @@ Script to run all the processes for each of the combination of "p" and "m" value
 
 When running the script file, all the combinaitons for each algorithm will run for tracefile in the order: 
 	1. smallmix.addrtrace:	takes < 1s
-	2. 4000.addrtrace:		takes < 1s
+	2. 4000.addrtrace:	takes < 1s
 	3. bigmix.addrtrace:	takes ~35s
 	4. 12million.addrtrace:	takes ~60s
 
