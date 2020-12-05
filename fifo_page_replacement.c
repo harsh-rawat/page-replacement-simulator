@@ -20,7 +20,7 @@ fifo_module *CreateFIFOModule(int max_size) {
 
 int GetReplacementPage(fifo_module *fifo) {
     dll_node *free_node;
-    if (fifo->free_list->size > 0) {
+    if (!IsListEmpty(fifo->free_list)) {
         free_node = DeleteFromFront(fifo->free_list);
     } else {
         free_node = DeleteFromFront(fifo->fifo_list);

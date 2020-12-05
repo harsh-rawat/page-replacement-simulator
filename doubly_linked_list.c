@@ -89,3 +89,7 @@ void *GetNext(doubly_linked_list *list) {
     if (list == NULL || list->head->next == list->tail) return NULL;
     else return list->head->next->data;
 }
+
+int IsListEmpty(doubly_linked_list *list) {
+    return list->head->next == list->tail ? 1 : 0;
+}

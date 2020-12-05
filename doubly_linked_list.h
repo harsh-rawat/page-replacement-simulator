@@ -33,4 +33,6 @@ dll_node *DeleteFromEnd(doubly_linked_list *list);
 
 void *GetNext(doubly_linked_list *list);
 
+int IsListEmpty(doubly_linked_list *list);
+
 #endif
