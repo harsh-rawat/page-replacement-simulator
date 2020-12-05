@@ -21,23 +21,30 @@ options *process_options(int argc, char *argv[]) {
     opt->m = 1 * MEGA;
 
     int index = 1;
+    char* myarg;
     int c = 0;
     while ((c = getopt(argc, argv, "p::m::")) != -1) {
         switch (c) {
             case 'p':
-                if (!isNumString((char*)optarg))
+                if(index+1 >= argc)
                     InvalidInputError(-1);
-                opt->p = atoi(optarg);
+                myarg = argv[index+1];
+                if (!isNumString(myarg))
+                    InvalidInputError(-1);
+                opt->p = atoi(myarg);
                 index += 2;
                 break;
             case 'm':
-                if (!isNumString((char*)optarg))
+                if(index+1 >= argc)
                     InvalidInputError(-1);
-                opt->m = atoi(optarg) * MEGA;
+                myarg = argv[index+1];
+                if (!isNumString(myarg))
+                    InvalidInputError(-1);
+                opt->m = atoi(myarg) * MEGA;
                 index += 2;
                 break;
             default:
-                printf("Nothing here!\n");
+                InvalidInputError(-1);
         }
     }
 
