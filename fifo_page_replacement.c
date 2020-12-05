@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include "fifo_page_replacement.h"
 
@@ -11,6 +16,7 @@ dll_node *get_referenced_node(fifo_module *fifo, int ppn_id);
 
 fifo_module *CreateFIFOModule(int max_size) {
     fifo_module *fifo = malloc(sizeof(fifo_module));
+    ValidateMemoryAllocationError(fifo);
     initialize_free_list(fifo, max_size);
     fifo->fifo_list = CreateDoublyLinkedList();
     fifo->max_size = max_size;
@@ -117,6 +123,7 @@ int compare_dll_ppn(const void *a, const void *b) {
 
 page *create_page(int index) {
     page *curr_page = malloc(sizeof(page));
+    ValidateMemoryAllocationError(curr_page);
     curr_page->ppn_id = index;
     curr_page->is_free = 1;
     return curr_page;

@@ -1,6 +1,12 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #ifndef PAGE_REPLACEMENT_SIMULATOR_CLOCK_PAGE_REPLACEMENT_H
 #define PAGE_REPLACEMENT_SIMULATOR_CLOCK_PAGE_REPLACEMENT_H
 
+#include "error_handler.h"
 #include "tsearch.h"
 #include "doubly_linked_list.h"
 

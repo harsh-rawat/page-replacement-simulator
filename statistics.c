@@ -1,9 +1,15 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "statistics.h"
 
 statistics *CreateStatistics(int max_page_size) {
     statistics *stats = malloc(sizeof(statistics));
+    ValidateMemoryAllocationError(stats);
     stats->average_memory_utilization_count_total = 0;
     stats->average_runnable_processes_count_total = 0;
     stats->total_memory_references = 0;

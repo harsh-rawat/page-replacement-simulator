@@ -1,5 +1,12 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #ifndef PAGE_REPLACEMENT_SIMULATOR_DOUBLY_LINKED_LIST_H
 #define PAGE_REPLACEMENT_SIMULATOR_DOUBLY_LINKED_LIST_H
+
+#include "error_handler.h"
 
 struct dll_node {
     void *data;
@@ -22,8 +29,6 @@ doubly_linked_list *CreateDoublyLinkedList();
 dll_node *AddToFront(doubly_linked_list *list, void *data, int isNode);
 
 dll_node *AddToBack(doubly_linked_list *list, void *data, int isNode);
-
-int GetSize(doubly_linked_list *list);
 
 void DeleteDLLNode(doubly_linked_list *list, dll_node *node);
 

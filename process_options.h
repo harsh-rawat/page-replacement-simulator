@@ -1,9 +1,12 @@
-//
-// Created by Sidharth Gurbani on 12/1/20.
-//
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
 
 #ifndef PAGE_REPLACEMENT_SIMULATOR_PROCESS_OPTIONS_H
 #define PAGE_REPLACEMENT_SIMULATOR_PROCESS_OPTIONS_H
+
+#include "error_handler.h"
 
 #define MEGA 1024*1024
 

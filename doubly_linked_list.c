@@ -1,8 +1,14 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include "doubly_linked_list.h"
 
 doubly_linked_list *CreateDoublyLinkedList() {
     doubly_linked_list *list = malloc(sizeof(doubly_linked_list));
+    ValidateMemoryAllocationError(list);
     list->head = Create_dll_node(NULL);
     list->tail = Create_dll_node(NULL);
     list->head->next = list->tail;
@@ -51,11 +57,6 @@ dll_node *AddToBack(doubly_linked_list *list, void *data, int isNode) {
     return new_node;
 }
 
-int GetSize(doubly_linked_list *list) {
-    if (list == NULL) return NULL;
-    return list->size;
-}
-
 dll_node *DeleteFromFront(doubly_linked_list *list) {
     if (list == NULL || list->head->next == list->tail) return NULL;
     dll_node *ret_node = list->head->next;
@@ -79,6 +80,7 @@ void DeleteDLLNode(doubly_linked_list *list, dll_node *node) {
 
 dll_node *Create_dll_node(void *data) {
     dll_node *new_node = malloc(sizeof(dll_node));
+    ValidateMemoryAllocationError(new_node);
     new_node->data = data;
     new_node->next = NULL;
     new_node->prev = NULL;

@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include "inverted_page_table.h"
 
@@ -40,6 +45,9 @@ void Callback_free_page_frames(const void *data, VISIT order, int depth) {
     FreePageFrame(page_replacement_algo, page_frame->ppn_id);
     page_frame->page_table_entry = NULL;
     entry->page_frame = NULL;
+    //Unused params of callback
+    UNUSED(order);
+    UNUSED(depth);
 }
 
 page_frame *get_page_frame(void *ipt_root, int pf_id) {
@@ -48,7 +56,7 @@ page_frame *get_page_frame(void *ipt_root, int pf_id) {
 
     //No such page frame exists
     if (existing == NULL)
-        InvalidInputError(-1);
+        ThrowError("Page frame is referenced which does not exist.");
     free(reference_page_frame);
 
     return existing;
@@ -56,6 +64,7 @@ page_frame *get_page_frame(void *ipt_root, int pf_id) {
 
 page_frame *create_page_frame(int id) {
     page_frame *new_page_frame = malloc(sizeof(page_frame));
+    ValidateMemoryAllocationError(new_page_frame);
     new_page_frame->ppn_id = id;
     new_page_frame->page_table_entry = NULL;
     return new_page_frame;

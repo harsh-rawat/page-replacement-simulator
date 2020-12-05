@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +27,7 @@ memory_reference *ReadLine(FILE *file, long file_ptr) {
 
 memory_reference *CreateMemoryReference(int pid, int vpn, long file_ptr) {
     memory_reference *mem_ref = malloc(sizeof(memory_reference));
+    ValidateMemoryAllocationError(mem_ref);
     mem_ref->file_ptr = file_ptr;
     mem_ref->pid = pid;
     mem_ref->vpn = vpn;
@@ -34,6 +40,7 @@ memory_reference *CreateMemoryReference(int pid, int vpn, long file_ptr) {
  * */
 char *extractLineFromFile(FILE *file, long file_ptr) {
     char *buffer = malloc(sizeof(char) * MAX_BUFFER_SIZE);
+    ValidateMemoryAllocationError(buffer);
     int len = 0;
     char ch;
 
@@ -63,7 +70,7 @@ char *extractLineFromFile(FILE *file, long file_ptr) {
  * This method has been reused from our last assignment.
  * */
 char *reallocateString(char *buffer, int len) {
-    char const *final_str = malloc(sizeof(char) * len);
+    char *final_str = malloc(sizeof(char) * len);
     ValidateMemoryAllocationError(final_str);
     strcpy(final_str, buffer);
     free(buffer);
@@ -78,6 +85,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr) 
     int index;
     int num_count = 0;
     char *curr = malloc(sizeof(char) * MAX_BUFFER_SIZE);
+    ValidateMemoryAllocationError(curr);
     int curr_index = 0;
 
     for (index = initialIndex; index <= maxLen; index++) {
@@ -90,7 +98,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr) 
                 else if (num_count == 1)
                     ref->vpn = atoi(curr);
                 else
-                    InvalidInputError(file_ptr);
+                    InvalidInputError();
 
                 num_count++;
                 memset(curr, '\0', MAX_BUFFER_SIZE);
@@ -99,7 +107,7 @@ memory_reference *split(char *str, int initialIndex, int maxLen, long file_ptr) 
             continue;
         }
         if (!isdigit(str[index - initialIndex]))
-            InvalidInputError(file_ptr);
+            InvalidInputError();
         curr[curr_index++] = str[index - initialIndex];
     }
 

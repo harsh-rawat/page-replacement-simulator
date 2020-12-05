@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "process.h"
@@ -33,6 +38,7 @@ void *ParseTraceFile(char *filepath, statistics *stats) {
 
 active_process *CreateActiveProcess(int pid) {
     active_process *new_process = malloc(sizeof(active_process));
+    ValidateMemoryAllocationError(new_process);
     new_process->pid = pid;
     new_process->unblock_time = 0;
     new_process->unblock_page_frame = -1;
@@ -43,6 +49,7 @@ active_process *CreateActiveProcess(int pid) {
 
 process *create_process(int pid, long file_ptr) {
     process *new_process = malloc(sizeof(process));
+    ValidateMemoryAllocationError(new_process);
     new_process->pid = pid;
     new_process->end = file_ptr;
     new_process->page_table = NULL;

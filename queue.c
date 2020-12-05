@@ -1,11 +1,13 @@
-//
-// Created by Sidharth Gurbani on 11/30/20.
-//
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
 
 #include "queue.h"
 
 Node *CreateNode(void *data) {
     Node *node = (Node *) malloc(sizeof(Node));
+    ValidateMemoryAllocationError(node);
     node->data = data;
     node->next = NULL;
 
@@ -14,6 +16,7 @@ Node *CreateNode(void *data) {
 
 Queue *CreateQueue() {
     Queue *q = (Queue *) malloc(sizeof(Queue));
+    ValidateMemoryAllocationError(q);
     q->front = NULL;
     q->rear = NULL;
 

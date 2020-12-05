@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include "process_options.h"
 #include "process.h"
 
@@ -43,7 +48,9 @@ void initialize_page_replacement_algo(int max_pages){
     page_replacement_algo = CreateClockPRAModule(max_pages);
 }
 #else
-void initialize_page_replacement_algo(int max_pages){
+
+void initialize_page_replacement_algo(int max_pages) {
     page_replacement_algo = CreateFIFOModule(max_pages);
 }
+
 #endif

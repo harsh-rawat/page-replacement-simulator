@@ -1,31 +1,27 @@
-//
-// Created by Sidharth Gurbani on 11/30/20.
-//
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include "heap.h"
 
 Heap *CreateHeap() {
     Heap *h = (Heap *) malloc(sizeof(Heap));
+    ValidateMemoryAllocationError(h);
 
-    if (h == NULL) {
-        // Throw error as in error_handler.c
-        exit(EXIT_FAILURE);
-    }
     h->count = 0;
-    h->arr = (int *) malloc(MAX_HEAP_CAPACITY * sizeof(int));
+    h->arr = (long *) malloc(MAX_HEAP_CAPACITY * sizeof(long));
+    ValidateMemoryAllocationError(h->arr);
     h->data = (void **) malloc(MAX_HEAP_CAPACITY * sizeof(void *));
-
-    if (h->arr == NULL || h->data == NULL) {
-        // Throw error as in error_handler.c
-        exit(EXIT_FAILURE);
-    }
+    ValidateMemoryAllocationError(h->data);
 
     return h;
 }
 
-void heapify_bottom_top(Heap *h, int index) {
-    int temp;
+void heapify_bottom_top(Heap *h, long index) {
+    long temp;
     void *temp_data;
-    int parent_node = (index - 1) / 2;
+    long parent_node = (index - 1) / 2;
 
     if (h->arr[parent_node] > h->arr[index]) {
         temp = h->arr[parent_node];
@@ -41,11 +37,11 @@ void heapify_bottom_top(Heap *h, int index) {
     }
 }
 
-void heapify_top_bottom(Heap *h, int parent_node) {
-    int left = parent_node * 2 + 1;
-    int right = parent_node * 2 + 2;
-    int min;
-    int temp;
+void heapify_top_bottom(Heap *h, long parent_node) {
+    long left = parent_node * 2 + 1;
+    long right = parent_node * 2 + 2;
+    long min;
+    long temp;
     void *temp_data;
 
     if (left >= h->count || left < 0)
@@ -76,7 +72,7 @@ void heapify_top_bottom(Heap *h, int parent_node) {
     }
 }
 
-void AddToHeap(Heap *h, int key, void *data) {
+void AddToHeap(Heap *h, long key, void *data) {
     h->arr[h->count] = key;
     h->data[h->count] = data;
     heapify_bottom_top(h, h->count);

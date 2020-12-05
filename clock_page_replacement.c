@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include "clock_page_replacement.h"
 
@@ -11,6 +16,7 @@ void initialize_cyclic_list(clock_pra *clock_pra, int max_size);
 
 clock_pra *CreateClockPRAModule(int max_size) {
     clock_pra *clock_module = malloc(sizeof(clock_module));
+    ValidateMemoryAllocationError(clock_module);
     clock_module->max_size = max_size;
     clock_module->free_pages = max_size;
     initialize_cyclic_list(clock_module, max_size);
@@ -109,6 +115,7 @@ int compare_dll_ppn(const void *a, const void *b) {
 
 page *create_clock_page(int index) {
     page *new_page = malloc(sizeof(page));
+    ValidateMemoryAllocationError(new_page);
     new_page->ppn_id = index;
     new_page->is_in_memory = 0;
     new_page->is_used = 0;

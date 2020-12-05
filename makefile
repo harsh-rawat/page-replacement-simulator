@@ -32,14 +32,14 @@ lru_main.o: process.h process_options.h
 	$(CC) $(CFLAGS) -DUSE_MODULE=LRU -o lru_main.o -c main.c
 clock_main.o: process.h process_options.h
 	$(CC) $(CFLAGS) -DUSE_MODULE=CLOCK -o clock_main.o -c main.c
-fifo_page_replacement.o: doubly_linked_list.h fifo_page_replacement.h fifo_page_replacement.c
+fifo_page_replacement.o: error_handler.h doubly_linked_list.h fifo_page_replacement.h fifo_page_replacement.c
 	$(CC) $(CFLAGS) -c fifo_page_replacement.c
-clock_page_replacement.o: doubly_linked_list.h clock_page_replacement.h clock_page_replacement.h
+clock_page_replacement.o: error_handler.h doubly_linked_list.h clock_page_replacement.h clock_page_replacement.h
 	$(CC) $(CFLAGS) -c clock_page_replacement.c
 
 input_parser.o: error_handler.h input_parser.h input_parser.c
 	$(CC) $(CFLAGS) -c input_parser.c
-process_options.o: process_options.h process_options.c
+process_options.o: error_handler.h process_options.h process_options.c
 	$(CC) $(CFLAGS) -c process_options.c
 process.o: statistics.h tsearch.h input_parser.h page_table.h error_handler.h process.h process.c
 	$(CC) $(CFLAGS) -c process.c
@@ -49,13 +49,13 @@ inverted_page_table.o: tables.h inverted_page_table.c inverted_page_table.h
 	$(CC) $(CFLAGS) -c inverted_page_table.c
 tsearch.o: error_handler.h tsearch.c tsearch.h
 	$(CC) $(CFLAGS) -c tsearch.c
-statistics.o: statistics.c statistics.h
+statistics.o: error_handler.h statistics.c statistics.h
 	$(CC) $(CFLAGS) -c statistics.c
-queue.o: queue.c queue.h
+queue.o: error_handler.h queue.c queue.h
 	$(CC) $(CFLAGS) -c queue.c
-doubly_linked_list.o: doubly_linked_list.c doubly_linked_list.h
+doubly_linked_list.o: error_handler.h doubly_linked_list.c doubly_linked_list.h
 	$(CC) $(CFLAGS) -c doubly_linked_list.c
-heap.o: heap.c heap.h
+heap.o: error_handler.h heap.c heap.h
 	$(CC) $(CFLAGS) -c heap.c
 error_handler.o: error_handler.c error_handler.h
 	$(CC) $(CFLAGS) -c error_handler.c

@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "page_table.h"
@@ -11,9 +16,10 @@ void update_statistics(statistics *stats, long occupied_pf, int non_blocked, int
 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
-void handle_page_fault(Queue *disk_queue, long clock, void **blocked_processes, process *existing_process, long file_ptr,
-                       page_table_entry *existing_pte, int is_blocked, statistics *stats,
-                       running_process_tracker *runnable_tracker);
+void
+handle_page_fault(Queue *disk_queue, long clock, void **blocked_processes, process *existing_process, long file_ptr,
+                  page_table_entry *existing_pte, int is_blocked, statistics *stats,
+                  running_process_tracker *runnable_tracker);
 
 page_table_entry *create_page_table_entry(int vpn);
 
@@ -56,7 +62,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
 
         if (!IsEmptyHeap(runnable_processes)) {
             current_process = ExtractMin(runnable_processes);
-            int next_file_ptr = (int) GetNext(current_process->next);
+            long next_file_ptr = (long) GetNext(current_process->next);
 
             mem_reference = ReadLineAtIndex(file, next_file_ptr - 1);
             fseek(file, curr_file_pointer, SEEK_SET);
@@ -121,7 +127,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
                     //Add the next readable line for the existing process (In case it was previously blocked)
                     if (GetNext(existing_process->current_process->next) != NULL) {
                         //There is a line which needs to be read before moving to current line
-                        AddToHeap(runnable_processes, (int) GetNext(existing_process->current_process->next),
+                        AddToHeap(runnable_processes, (long) GetNext(existing_process->current_process->next),
                                   existing_process->current_process);
                     }
                     if (mem_reference->file_ptr == existing_process->end) {
@@ -159,13 +165,14 @@ void free_process_page_frames(process *current_process, running_process_tracker 
     TraverseTree(current_process->page_table, &Callback_free_page_frames);
 }
 
-void handle_page_fault(Queue *disk_queue, long clock, void **blocked_processes, process *existing_process, long file_ptr,
-                       page_table_entry *existing_pte, int is_blocked, statistics *stats,
-                       running_process_tracker *runnable_tracker) {
+void
+handle_page_fault(Queue *disk_queue, long clock, void **blocked_processes, process *existing_process, long file_ptr,
+                  page_table_entry *existing_pte, int is_blocked, statistics *stats,
+                  running_process_tracker *runnable_tracker) {
     active_process *current_process = existing_process->current_process;
     void *next_ptr = GetNext(current_process->next);
     if (next_ptr == NULL || (long) next_ptr != file_ptr + 1)
-        AddToBack(current_process->next, file_ptr + 1, 0);
+        AddToBack(current_process->next, (void *) (file_ptr + 1), 0);
 
     if (!is_blocked) {
         active_process *blocked_process_from_queue = GetFromQueueEnd(disk_queue);
@@ -198,7 +205,7 @@ void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_pro
         Link_pf_pte(ipt_root, curr_process->unblock_page_frame, curr_process->unblock_page_table_entry);
         //Remove from Queue
         RemoveFromQueue(disk_queue);
-        AddToHeap(runnable_processes, (int) GetNext(curr_process->next), curr_process);
+        AddToHeap(runnable_processes, (long) GetNext(curr_process->next), curr_process);
         Remove(blocked_processes, curr_process, &compare_memory_trace_active_process);
         UpdatePageFrameIntoMemory(page_replacement_algo, curr_process->unblock_page_frame);
     }
@@ -211,7 +218,7 @@ process *get_process_from_bst(void *process_root, memory_reference *mem_referenc
 
     if (existing_process == NULL) {
         // Throw error as you expect the process to be present
-        InvalidInputError(-1);
+        ThrowError("A process was supposed to be present in the tree.");
     }
 
     free(reference_process);
@@ -220,6 +227,7 @@ process *get_process_from_bst(void *process_root, memory_reference *mem_referenc
 
 page_table_entry *create_page_table_entry(int vpn) {
     page_table_entry *new_page_table_entry = malloc(sizeof(page_table_entry));
+    ValidateMemoryAllocationError(new_page_table_entry);
     new_page_table_entry->vpn = vpn;
     new_page_table_entry->page_frame = NULL;
     return new_page_table_entry;
@@ -227,6 +235,7 @@ page_table_entry *create_page_table_entry(int vpn) {
 
 running_process_tracker *create_running_process_tracker() {
     running_process_tracker *running = malloc(sizeof(running_process_tracker));
+    ValidateMemoryAllocationError(running);
     running->running = 0;
     running->list_processes = NULL;
     return running;

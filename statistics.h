@@ -1,5 +1,12 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #ifndef PAGE_REPLACEMENT_SIMULATOR_STATISTICS_H
 #define PAGE_REPLACEMENT_SIMULATOR_STATISTICS_H
+
+#include "error_handler.h"
 
 typedef struct statistics {
     long average_memory_utilization_count_total;

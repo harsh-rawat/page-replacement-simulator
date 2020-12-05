@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #ifndef PAGE_REPLACEMENT_SIMULATOR_PAGE_TSEARCH_H
 #define PAGE_REPLACEMENT_SIMULATOR_PAGE_TSEARCH_H
 
@@ -19,7 +24,5 @@ void *Get(void **root, void *search_node, tsearch_compare comparator);
 int Remove(void **root, void *data_node, tsearch_compare comparator);
 
 void TraverseTree(void *root, tsearch_walk callback);
-
-void Destroy(void **root, tsearch_free free_method);
 
 #endif

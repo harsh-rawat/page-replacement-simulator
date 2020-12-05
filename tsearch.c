@@ -1,3 +1,8 @@
+/**
+ * @author Harsh Rawat, harsh-rawat, hrawat2
+ * @author Sidharth Gurbani, gurbani, gurbani
+ */
+
 #include <stdlib.h>
 #include "tsearch.h"
 
@@ -43,9 +48,4 @@ int Remove(void **root, void *data_node, tsearch_compare comparator) {
 
 void TraverseTree(void *root, tsearch_walk callback) {
     twalk(root, callback);
-}
-
-//Destroy the tree
-void Destroy(void **root, tsearch_free free_method) {
-//    tdestroy(root, free_method);
 }
