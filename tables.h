@@ -10,13 +10,11 @@
 #endif
 
 #if USE_MODULE == FIFO
-
 #include "fifo_page_replacement.h"
-
 #elif USE_MODULE == LRU
 #include "fifo_page_replacement.h"
 #elif USE_MODULE == CLOCK
-#include "fifo_page_replacement.h"
+#include "clock_page_replacement.h"
 #else
 #error "Invalid choice for the module to use"
 #endif

@@ -1,14 +1,15 @@
 #include "process_options.h"
 #include "process.h"
-#include "fifo_page_replacement.h"
 
 #if USE_MODULE == FIFO
 fifo_module *page_replacement_algo = NULL;
 #elif USE_MODULE == LRU
 fifo_module *page_replacement_algo = NULL;
 #else
-fifo_module *page_replacement_algo = NULL;
+clock_pra *page_replacement_algo = NULL;
 #endif
+
+void initialize_page_replacement_algo(int max_pages);
 
 int main(int argc, char *argv[]) {
     //Parse the program arguments. If provided else consider the default ones
@@ -28,12 +29,7 @@ int main(int argc, char *argv[]) {
 
     void *ipt_root = CreateInvertedPageTable(max_pages);
 
-    if (USE_MODULE == FIFO)
-        page_replacement_algo = CreateFIFOModule(max_pages);
-    else if (USE_MODULE == LRU)
-        page_replacement_algo = CreateFIFOModule(max_pages);
-    else
-        page_replacement_algo = CreateFIFOModule(max_pages);
+    initialize_page_replacement_algo(max_pages);
 
     RunSimulation(filepath, process_root, ipt_root, stats);
 
@@ -41,3 +37,13 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+#if USE_MODULE == CLOCK
+void initialize_page_replacement_algo(int max_pages){
+    page_replacement_algo = CreateClockPRAModule(max_pages);
+}
+#else
+void initialize_page_replacement_algo(int max_pages){
+    page_replacement_algo = CreateFIFOModule(max_pages);
+}
+#endif

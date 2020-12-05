@@ -13,20 +13,29 @@ CFLAGS = -Wall -pedantic -Wextra
 COMMON_OBJECTS = tsearch.o statistics.o queue.o doubly_linked_list.o heap.o error_handler.o input_parser.o process_options.o process.o page_table.o inverted_page_table.o
 FIFO_OBJECTS = fifo_main.o fifo_page_replacement.o
 LRU_OBJECTS = lru_main.o fifo_page_replacement.o
-CLOCK_OBJECTS =
+CLOCK_OBJECTS = clock_main.o clock_page_replacement.o
 
-$(FIFO_PROGNAME): clean $(FIFO_OBJECTS) $(COMMON_OBJECTS)
+all: clean $(FIFO_PROGNAME) $(LRU_PROGNAME) $(CLOCK_PROGNAME)
+
+$(FIFO_PROGNAME): $(FIFO_OBJECTS) $(COMMON_OBJECTS)
 	$(CC) $(CFLAGS) -o $(FIFO_PROGNAME) $(COMMON_OBJECTS) $(FIFO_OBJECTS)
 
-$(LRU_PROGNAME): clean $(LRU_OBJECTS) $(COMMON_OBJECTS)
+$(LRU_PROGNAME): $(LRU_OBJECTS) $(COMMON_OBJECTS)
 	$(CC) $(CFLAGS) -o $(LRU_PROGNAME) $(COMMON_OBJECTS) $(LRU_OBJECTS)
+
+$(CLOCK_PROGNAME): $(CLOCK_OBJECTS) $(COMMON_OBJECTS)
+	$(CC) $(CFLAGS) -o $(CLOCK_PROGNAME) $(COMMON_OBJECTS) $(CLOCK_OBJECTS)
 
 fifo_main.o: process.h process_options.h
 	$(CC) $(CFLAGS) -DUSE_MODULE=FIFO -o fifo_main.o -c main.c
 lru_main.o: process.h process_options.h
 	$(CC) $(CFLAGS) -DUSE_MODULE=LRU -o lru_main.o -c main.c
+clock_main.o: process.h process_options.h
+	$(CC) $(CFLAGS) -DUSE_MODULE=CLOCK -o clock_main.o -c main.c
 fifo_page_replacement.o: doubly_linked_list.h fifo_page_replacement.h fifo_page_replacement.c
 	$(CC) $(CFLAGS) -c fifo_page_replacement.c
+clock_page_replacement.o: doubly_linked_list.h clock_page_replacement.h clock_page_replacement.h
+	$(CC) $(CFLAGS) -c clock_page_replacement.c
 
 input_parser.o: error_handler.h input_parser.h input_parser.c
 	$(CC) $(CFLAGS) -c input_parser.c
