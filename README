@@ -1,0 +1,36 @@
+# Harsh Rawat, harsh-rawat, hrawat2
+# Sidharth Gurbani, gurbani, gurbani
+
+"README" file for programming assignment 4
+
+The flow of the algorithm for the assignment is as follows:
+
+1. First pass traverses the entire tracefile and extracts the last memory reference made by every process. We store this to identify when a process finishes its execution and no further references to memory are made by that particular process
+
+2. Once this is done, we start traversing the tracefile again. We have a global file pointer which follows the clock and is maintained throughout the execution.
+
+3. When we find that a memory reference is not present in the main memory, a page fault is triggered and the process is stored in a table of "blocked processes". This process stores the line reference in a file pointer waiting to get unblocked. Every process is assigned a queue of file pointer which keeps track of the location in the file where the process had a memory reference. 
+
+4. The first node in the queue marks the line reference in the file where page fault occured. All the other nodes in the queue are waiting for the process to get unblocked. Once a process gets unblocked, the file pointer at which the process was blocked gets popped from the queue and we move to the next memory reference by the process.
+
+5. In all of this, we maintain that a "min heap" data structure which stores all the runnable processes with key as the file pointer. To get the next runnable process, we basically look for the node in the heap which points to the earliest reference in the trace file. Basically, every runnable process which occured earliest in the tracefile is the one that is processed first.
+
+6. For every successfull memory mapping, the page frames allocated are updated based on the replacement algorithm. If the main memory is full, the page replacement algorithm decides which location in the memory needs to be replaced and accordingly, the process is allocated the memory and page table is updated. 
+
+7. We have a page table for every process which stores the location in memory to which the VPN is mapped. We have used a cyclic structure where the page table entry maps the VPN to the location in main memory and every location in main memory has a reverse mapping back to this VPN. This helps in in replacement method.
+
+8. Once a process reaches its last reference and is in runnable state, all the page frames alocated to the process are freed.
+
+9. At every clock tick, we update our performance statistics:
+	a. Average memory utilization: We maintain a count of used page frames and average it over total page frames for every clock tick
+	b. Average runnable processes: We maintain a count of runnable processes for every clock tick and return the number of runnable_processes/clock_tick
+	c. Total memory references: This is equal to the number of memory references made by the trace file.
+	d. Total page ins: This is the number of page faults triggered during the execution
+	e. Running time: This is the number of clock ticks for the entire execution was running.
+
+
+Script to run all the processes for each of the combination of "p" and "m" values for every trace file and each of the three algorithms:
+
+	We have included a file "run.sh" which can be executed to run all the different combinations as mentioned above. There are two different p values, three m values, 4 tracefiles and 3 page replace algorithms. In total, the script will execute 72 runs. 
+
+	There are some executions which take more than required time and for simplicity, I am including a outputlogs.txt which we ran in the CSL machine and you can view that to get an idea about the performance and statistics of every execution for each algorithm.
