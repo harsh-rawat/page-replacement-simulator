@@ -22,6 +22,18 @@ Script to run all the processes for each of the combination of "p" and "m" value
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+When running the script file, all the combinaitons for each algorithm will run for tracefile in the order: 
+	1. smallmix.addrtrace:	takes < 1s
+	2. 4000.addrtrace:		takes < 1s
+	3. bigmix.addrtrace:	takes ~35s
+	4. 12million.addrtrace:	takes ~60s
+
+The trace files bigmix.addrtrace and 12million.addrtrace take almost ~35s and ~60s for each of the algorithm. We have noted these timings in the 
+
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
 The flow of the algorithm for the assignment is as follows:
 
 1. First pass traverses the entire tracefile and extracts the last memory reference made by every process. We store this to identify when a process finishes its execution and no further references to memory are made by that particular process

@@ -1,0 +1,745 @@
+# Harsh Rawat, harsh-rawat, hrawat2
+# Sidharth Gurbani, gurbani, gurbani
+
+Running smallmix.addrtrace with p_value=512 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.046572
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.046572
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.046572
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+
+Running smallmix.addrtrace with p_value=512 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011643
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011643
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011643
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+
+Running smallmix.addrtrace with p_value=512 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.001455
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.001455
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.001455
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+
+Running smallmix.addrtrace with p_value=4096 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.372576
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.372576
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.374517
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 348
+Running Time: 696000170
+
+---------------------------------------------------
+
+Running smallmix.addrtrace with p_value=4096 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.093144
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.093144
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.093144
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+
+Running smallmix.addrtrace with p_value=4096 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011643
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011643
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011643
+Average Runnable Processes: 0.000002
+Total Memory References: 1555
+Total Page Faults: 332
+Running Time: 664000002
+
+---------------------------------------------------
+
+Running 4000.addrtrace with p_value=512 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.038317
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.038317
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.038317
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+
+Running 4000.addrtrace with p_value=512 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.009579
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.009579
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.009579
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+
+Running 4000.addrtrace with p_value=512 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.001197
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.001197
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.001197
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+
+Running 4000.addrtrace with p_value=4096 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.306535
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.306535
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.306535
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+
+Running 4000.addrtrace with p_value=4096 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.076634
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.076634
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.076634
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+
+Running 4000.addrtrace with p_value=4096 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.009579
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.009579
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.009579
+Average Runnable Processes: 0.000012
+Total Memory References: 4000
+Total Page Faults: 167
+Running Time: 334000058
+
+---------------------------------------------------
+
+Running bigmix.addrtrace with p_value=512 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999257
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2237699
+Running Time: 4475398241664
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999257
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2237699
+Running Time: 4475398241664
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.998475
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2233852
+Running Time: 4467704240868
+
+---------------------------------------------------
+
+Running bigmix.addrtrace with p_value=512 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.990155
+Average Runnable Processes: 0.000002
+Total Memory References: 4534297
+Total Page Faults: 912498
+Running Time: 1824996149399
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.990155
+Average Runnable Processes: 0.000002
+Total Memory References: 4534297
+Total Page Faults: 912498
+Running Time: 1824996149399
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.983080
+Average Runnable Processes: 0.000002
+Total Memory References: 4534297
+Total Page Faults: 970506
+Running Time: 1941012123808
+
+---------------------------------------------------
+
+Running bigmix.addrtrace with p_value=512 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.522383
+Average Runnable Processes: 0.000016
+Total Memory References: 4534297
+Total Page Faults: 138726
+Running Time: 277452205086
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.522383
+Average Runnable Processes: 0.000016
+Total Memory References: 4534297
+Total Page Faults: 138726
+Running Time: 277452205086
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.592592
+Average Runnable Processes: 0.000013
+Total Memory References: 4534297
+Total Page Faults: 177309
+Running Time: 354618063323
+
+---------------------------------------------------
+
+Running bigmix.addrtrace with p_value=4096 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999910
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2449640
+Running Time: 4899280200804
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999910
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2449640
+Running Time: 4899280200804
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999812
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2449386
+Running Time: 4898772200821
+
+---------------------------------------------------
+
+Running bigmix.addrtrace with p_value=4096 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999650
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2345572
+Running Time: 4691144223079
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999650
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2345572
+Running Time: 4691144223079
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.999256
+Average Runnable Processes: 0.000001
+Total Memory References: 4534297
+Total Page Faults: 2343872
+Running Time: 4687744223117
+
+---------------------------------------------------
+
+Running bigmix.addrtrace with p_value=4096 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.990155
+Average Runnable Processes: 0.000002
+Total Memory References: 4534297
+Total Page Faults: 912498
+Running Time: 1824996149399
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.990155
+Average Runnable Processes: 0.000002
+Total Memory References: 4534297
+Total Page Faults: 912498
+Running Time: 1824996149399
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.983080
+Average Runnable Processes: 0.000002
+Total Memory References: 4534297
+Total Page Faults: 970506
+Running Time: 1941012123808
+
+---------------------------------------------------
+
+Running 12million.addrtrace with p_value=512 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.377334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.377334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.377891
+Average Runnable Processes: 0.002810
+Total Memory References: 12000000
+Total Page Faults: 2135
+Running Time: 4270078711
+
+---------------------------------------------------
+
+Running 12million.addrtrace with p_value=512 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.094334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.094334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.094334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+
+Running 12million.addrtrace with p_value=512 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011792
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011792
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.011792
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+
+Running 12million.addrtrace with p_value=4096 and m_value=1.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.954441
+Average Runnable Processes: 0.001106
+Total Memory References: 12000000
+Total Page Faults: 5427
+Running Time: 10854560678
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.954441
+Average Runnable Processes: 0.001106
+Total Memory References: 12000000
+Total Page Faults: 5427
+Running Time: 10854560678
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.938686
+Average Runnable Processes: 0.001023
+Total Memory References: 12000000
+Total Page Faults: 5866
+Running Time: 11732560501
+
+---------------------------------------------------
+
+Running 12million.addrtrace with p_value=4096 and m_value=4.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.695580
+Average Runnable Processes: 0.002677
+Total Memory References: 12000000
+Total Page Faults: 2241
+Running Time: 4482092388
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.695580
+Average Runnable Processes: 0.002677
+Total Memory References: 12000000
+Total Page Faults: 2241
+Running Time: 4482092388
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.644309
+Average Runnable Processes: 0.002494
+Total Memory References: 12000000
+Total Page Faults: 2406
+Running Time: 4812091388
+
+---------------------------------------------------
+
+Running 12million.addrtrace with p_value=4096 and m_value=32.
+
+---------------------------------------------------
+Running FIFO algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.094334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running LRU algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.094334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
+---------------------------------------------------
+Running CLOCK algorithm
+---------------------------------------------------
+Average Memory Utilization: 0.094334
+Average Runnable Processes: 0.002822
+Total Memory References: 12000000
+Total Page Faults: 2126
+Running Time: 4252092348
+
