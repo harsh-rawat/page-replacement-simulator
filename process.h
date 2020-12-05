@@ -9,7 +9,7 @@
 
 typedef struct active_process {
     int pid;
-    int unblock_time;
+    long unblock_time;
     int unblock_page_frame;
     page_table_entry *unblock_page_table_entry;
     doubly_linked_list *next;

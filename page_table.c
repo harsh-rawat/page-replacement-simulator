@@ -7,7 +7,7 @@ void perform_initial_tasks(void *ipt_root, Queue *disk_queue, Heap *runnable_pro
                            int clock_time);
 
 void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
-                       int clock_update_count);
+                       long clock_update_count);
 
 process *get_process_from_bst(void *process_root, memory_reference *mem_reference);
 
@@ -73,7 +73,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
             //If we don't have any process in runnable state and trace has ended
             //then wait for blocked process to become runnable
             active_process *curr_blocked_process = (active_process *) GetFromQueue(disk_queue);
-            int clock_difference = curr_blocked_process->unblock_time - clock;
+            long clock_difference = curr_blocked_process->unblock_time - clock;
             //For clock_difference time, our page frames would not change as no file line left and no process in heap
 
             //Get stats of non-blocked and occupied pf from page replacement algo and update here
@@ -144,7 +144,7 @@ void RunSimulation(char *filepath, void *process_root, void *ipt_root, statistic
 }
 
 void update_statistics(statistics *stats, int occupied_pf, int non_blocked, int is_page_fault, int update_clock_tick,
-                       int clock_update_count) {
+                       long clock_update_count) {
     UpdateAverageMemoryUtilization(stats, occupied_pf);
     UpdateAverageRunnableProcesses(stats, non_blocked);
     if (update_clock_tick)
@@ -175,7 +175,7 @@ void handle_page_fault(Queue *disk_queue, int clock, void **blocked_processes, p
         current_process->unblock_page_table_entry = existing_pte;
         AddToQueue(disk_queue, current_process);
         if (blocked_process_from_queue == NULL)
-            current_process->unblock_time = clock + DISK_ACCESS_TIME + 1;
+            current_process->unblock_time = clock + DISK_ACCESS_TIME + 1.0;
         else
             current_process->unblock_time = blocked_process_from_queue->unblock_time + DISK_ACCESS_TIME;
 

@@ -6,7 +6,7 @@ typedef struct statistics {
     double average_runnable_processes_count_total;
     int total_memory_references;
     int total_page_faults;
-    int run_time;
+    long run_time;
     int max_page_size;
 } statistics;
 
@@ -20,7 +20,7 @@ void UpdateTotalMemoryReferences(statistics *stats, int references);
 
 void UpdateTotalPageFaults(statistics *stats);
 
-void UpdateRunningTime(statistics *stats, int count);
+void UpdateRunningTime(statistics *stats, long count);
 
 void PrintStatistics(statistics *stats);
 

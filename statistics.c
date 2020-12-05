@@ -30,7 +30,7 @@ void UpdateTotalPageFaults(statistics *stats) {
     stats->total_page_faults += 1;
 }
 
-void UpdateRunningTime(statistics *stats, int count) {
+void UpdateRunningTime(statistics *stats, long count) {
     stats->run_time += count;
 }
 
@@ -42,6 +42,6 @@ void PrintStatistics(statistics *stats) {
            "Average Runnable Processes: %f\n"
            "Total Memory References: %d\n"
            "Total Page Faults: %d\n"
-           "Running Time: %d",
+           "Running Time: %ld\n",
            amu, arp, stats->total_memory_references, stats->total_page_faults, stats->run_time);
 }
